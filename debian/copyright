@@ -1,43 +1,503 @@
-This work was packaged for Debian by:
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: mate-panel
+Upstream-Contact: Stefano Karapetsas <stefano@karapetsas.com>
+Source: http://pub.mate-desktop.org/releases/
 
-    Stefano Karapetsas <stefano@karapetsas.com> on Sat, 22 Oct 2011 02:12:53 +0200
+Files: applets/wncklet/wncklet.c
+       mate-panel/mate-panel-applet-frame.h
+       mate-panel/panel-action-protocol.c
+       mate-panel/panel-action-protocol.h
+       mate-panel/panel-background.c
+       mate-panel/panel-background.h
+       mate-panel/panel-bindings.c
+       mate-panel/panel-bindings.h
+       mate-panel/panel-config-global.c
+       mate-panel/panel-config-global.h
+       mate-panel/panel-enums-gsettings.h
+       mate-panel/panel-enums.h
+       mate-panel/panel-frame.c
+       mate-panel/panel-frame.h
+       mate-panel/panel-globals.h
+       mate-panel/panel-gsettings.c
+       mate-panel/panel-gsettings.h
+       mate-panel/panel-lockdown.c
+       mate-panel/panel-lockdown.h
+       mate-panel/panel-menu-bar.h
+       mate-panel/panel-menu-button.c
+       mate-panel/panel-menu-button.h
+       mate-panel/panel-profile.c
+       mate-panel/panel-profile.h
+       mate-panel/panel-properties-dialog.c
+       mate-panel/panel-properties-dialog.h
+       mate-panel/panel-session.c
+       mate-panel/panel-session.h
+       mate-panel/panel-stock-icons.c
+       mate-panel/panel-stock-icons.h
+       mate-panel/panel-struts.h
+       mate-panel/panel-toplevel.h
+       mate-panel/panel-xutils.c
+       mate-panel/panel-xutils.h
+Copyright: 2001, 2002, 2003, 2004, Sun Microsystems, Inc
+License: GPL-2+
+ 
+Files: applets/clock/clock-location-tile.c
+       applets/clock/clock-location-tile.h
+       applets/clock/clock-location.c
+       applets/clock/clock-location.h
+       applets/clock/clock-map.c
+       applets/clock/clock-map.h
+       applets/clock/clock-marshallers.c
+       applets/clock/clock-marshallers.h
+       applets/clock/clock-sunpos.h
+       applets/clock/clock-typebuiltins.c
+       applets/clock/clock-typebuiltins.h
+       applets/notification_area/na-marshal.c
+       applets/notification_area/na-marshal.h
+       libmate-panel-applet/test-dbus-applet.c
+       mate-panel/applet.h
+       mate-panel/button-widget.c
+       mate-panel/button-widget.h
+       mate-panel/drawer.h
+       mate-panel/libmate-panel-applet-private/mate-panel-applet-mini.c
+       mate-panel/mate-desktop-item-edit.c
+       mate-panel/nothing.h
+       mate-panel/panel-icon-names.h
+       mate-panel/panel-schemas.h
+       mate-panel/panel-types.h
+       mate-panel/panel-util.h
+       mate-panel/panel.h
+       mate-panel/xstuff.h
+Copyright: *No copyright*
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: applets/clock/system-timezone.h
+       applets/clock/test-system-timezone.c
+       mate-panel/libpanel-util/panel-cleanup.c
+       mate-panel/libpanel-util/panel-cleanup.h
+       mate-panel/libpanel-util/panel-dconf.c
+       mate-panel/libpanel-util/panel-dconf.h
+       mate-panel/libpanel-util/panel-error.h
+       mate-panel/libpanel-util/panel-glib.h
+       mate-panel/libpanel-util/panel-gtk.h
+       mate-panel/libpanel-util/panel-icon-chooser.c
+       mate-panel/libpanel-util/panel-icon-chooser.h
+       mate-panel/libpanel-util/panel-launch.c
+       mate-panel/libpanel-util/panel-launch.h
+       mate-panel/libpanel-util/panel-list.h
+       mate-panel/libpanel-util/panel-session-manager.c
+       mate-panel/libpanel-util/panel-session-manager.h
+       mate-panel/libpanel-util/panel-show.c
+       mate-panel/libpanel-util/panel-show.h
+       mate-panel/libpanel-util/panel-xdg.h
+       mate-panel/panel-layout.c
+Copyright: 2008, 2009, 2010, 2011, Novell, Inc
+License: GPL-2+
+ 
+Files: applets/clock/calendar-window.c
+       applets/clock/calendar-window.h
+       applets/clock/clock-utils.c
+       applets/clock/clock-utils.h
+       applets/clock/clock.h
+       mate-panel/panel-modules.c
+       mate-panel/panel-modules.h
+Copyright: 2007, 2010, Vincent Untz <vuntz@gnome.org>
+License: GPL-2+
+ 
+Files: mate-panel/libmate-panel-applet-private/mate-panel-applets-manager-dbus.c
+       mate-panel/libmate-panel-applet-private/mate-panel-applets-manager-dbus.h
+       mate-panel/mate-panel-applet-info.c
+       mate-panel/mate-panel-applet-info.h
+       mate-panel/mate-panel-applets-manager.c
+       mate-panel/mate-panel-applets-manager.h
+Copyright: 2010, Carlos Garcia Campos <carlosgc@gnome.org>
+           2010, Vincent Untz <vuntz@gnome.org>
+License: GPL-2+
+ 
+Files: mate-panel/panel-addto.c
+       mate-panel/panel-addto.h
+       mate-panel/panel-context-menu.c
+       mate-panel/panel-context-menu.h
+       mate-panel/panel-menu-items.c
+       mate-panel/panel-menu-items.h
+Copyright: 2004, 2005, Vincent Untz
+License: GPL-2+
+ 
+Files: libmate-panel-applet/mate-panel-applet-factory.c
+       libmate-panel-applet/mate-panel-applet-factory.h
+       mate-panel/libmate-panel-applet-private/mate-panel-applet-container.c
+       mate-panel/libmate-panel-applet-private/mate-panel-applet-container.h
+Copyright: 2010, Carlos Garcia Campos <carlosgc@gnome.org>
+License: LGPL-2+
+ 
+Files: mate-panel/libegg/eggdesktopfile.h
+       mate-panel/libegg/eggsmclient-private.h
+       mate-panel/libegg/eggsmclient.c
+       mate-panel/libegg/eggsmclient.h
+Copyright: 2007, Novell, Inc
+License: LGPL-2+
+ 
+Files: applets/clock/clock-sunpos.c
+       applets/wncklet/showdesktop.c
+       applets/wncklet/showdesktop.h
+Copyright: 2002, 2007, Red Hat, Inc
+License: GPL-2+
+ 
+Files: applets/notification_area/na-tray-manager.c
+       applets/notification_area/na-tray-manager.h
+       applets/notification_area/na-tray.h
+Copyright: 2002, Anders Carlsson <andersca@gnu.org>
+           2003-2006, Vincent Untz
+License: LGPL-2+
+ 
+Files: libmate-panel-applet/mate-panel-applet.h
+       mate-panel/panel-force-quit.c
+       mate-panel/panel-force-quit.h
+Copyright: 2001, 2003, Sun Microsystems, Inc
+License: LGPL-2+
+ 
+Files: mate-panel/main.c
+       mate-panel/panel-widget.c
+       mate-panel/panel.c
+Copyright: 1997-2000, the Free Software Foundation
+           2000, Eazel, Inc
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: mate-panel/panel-separator.c
+       mate-panel/panel-separator.h
+Copyright: 2005, Carlos Garcia Campos <carlosgc@gnome.org>
+License: GPL-2+
+ 
+Files: applets/clock/set-timezone.c
+       applets/clock/set-timezone.h
+Copyright: 2007, David Zeuthen <david@fubar.dk>
+License: GPL-2+
+ 
+Files: mate-panel/libpanel-util/panel-error.c
+       mate-panel/libpanel-util/panel-glib.c
+Copyright: 2008, Novell, Inc
+           Dennis Cranston (for the panel_g_lookup_in_data_dirs() code)
+License: GPL-2+
+ 
+Files: mate-panel/menu.c
+       mate-panel/menu.h
+Copyright: 1997, 2000, The Free Software Foundation
+           2000, Eazel, Inc
+           2000, Helix Code, Inc
+           2004, Red Hat Inc
+License: GPL-2+
+ 
+Files: mate-panel/panel-run-dialog.c
+       mate-panel/panel-run-dialog.h
+Copyright: 2003, Frank Worsley <fworsley@shaw.ca>
+License: GPL-2+
+ 
+Files: applets/wncklet/window-menu.c
+       applets/wncklet/window-menu.h
+Copyright: 2000, Helix Code, Inc
+           2001, Free Software Foundation, Inc
+           2003, Sun Microsystems, Inc
+License: GPL-2+
+ 
+Files: mate-panel/panel-multiscreen.c
+       mate-panel/panel-multiscreen.h
+Copyright: 2001, George Lebl <jirka@5z.com>
+License: GPL-2+
+ 
+Files: mate-panel/libpanel-util/panel-dbus-service.c
+       mate-panel/libpanel-util/panel-dbus-service.h
+Copyright: 2006, Ray Strode <rstrode@redhat.com>
+           2008, Novell, Inc
+License: GPL-2+
+ 
+Files: mate-panel/libpanel-util/panel-gtk.c
+       mate-panel/libpanel-util/panel-xdg.c
+Copyright: 2005, 2006, Vincent Untz <vuntz@gnome.org>
+           2010, Novell, Inc
+License: GPL-2+
+ 
+Files: mate-panel/libpanel-util/panel-keyfile.c
+       mate-panel/libpanel-util/panel-keyfile.h
+Copyright: 2008, Novell, Inc
+License: GPL-2+
+ 
+Files: mate-panel/panel-action-button.c
+       mate-panel/panel-action-button.h
+Copyright: 2002, Sun Microsystems, Inc
+           2004, Red Hat, Inc
+License: GPL-2+
+ 
+Files: mate-panel/panel-struts.c
+       mate-panel/panel-toplevel.c
+Copyright: 2003, Sun Microsystems, Inc
+           2003, 2004, Rob Adams
+License: GPL-2+
+ 
+Files: mate-panel/panel-a11y.c
+       mate-panel/panel-a11y.h
+Copyright: 2002-2003, Sun Microsystems Inc
+License: GPL-2+
+ 
+Files: applets/notification_area/na-tray-child.c
+       applets/notification_area/na-tray-child.h
+Copyright: 2002, Anders Carlsson <andersca@gnu.org>
+           2003-2006, Vincent Untz
+           2008, Red Hat, Inc
+License: LGPL-2+
+ 
+Files: mate-panel/panel-background-monitor.c
+       mate-panel/panel-background-monitor.h
+Copyright: 2001-2002, Ian McKellar <yakk@yakk.net>
+License: LGPL-2+
+ 
+Files: mate-panel/panel-recent.c
+       mate-panel/panel-recent.h
+Copyright: 2002, James Willcox <jwillcox@gnome.org>
+License: LGPL-2+
+ 
+Files: mate-panel/panel-reset.c
+       mate-panel/panel-reset.h
+Copyright: 2010, Perberos <perberos@gmail.com>
+License: LGPL-2+
+ 
+Files: libmate-panel-applet/mate-panel-applet-gsettings.c
+       libmate-panel-applet/mate-panel-applet-gsettings.h
+Copyright: 2012, Stefano Karapetsas
+License: LGPL-2+
+ 
+Files: mate-panel/panel-ditem-editor.c
+       mate-panel/panel-ditem-editor.h
+Copyright: 2004, 2006 Vincent Untz
+License: LGPL-2+
+ 
+Files: applets/wncklet/window-list.h
+       applets/wncklet/workspace-switcher.h
+Copyright: 2001, Alexander Larsson
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: applets/wncklet/window-list.c
+       applets/wncklet/workspace-switcher.c
+Copyright: 2001, Alexander Larsson
+  2001, Red Hat, Inc
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: applets/clock/clock-face.c
+       applets/clock/clock-face.h
+Copyright: 2005-2006, Davyd Madeley
+  2007, Peter Teichman
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: mate-panel/drawer.c
+       mate-panel/launcher.h
+Copyright: 1997, The Free Software Foundation
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: mate-panel/applet.c
+       mate-panel/panel-widget.h
+Copyright: 1997, the Free Software Foundation
+  1997-1998, the Free Software Foundation
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: ltmain.sh
+Copyright: 1996-2001, 2003-2006
+License: GPL-2+
+ 
+Files: mate-panel/panel-shell.c
+Copyright: 2001, Ximian, Inc
+           2008, Novell, Inc
+           2008, Red Hat, Inc
+           2010, Carlos Garcia Campos <carlosgc@gnome.org>
+License: GPL-2+
+ 
+Files: mate-panel/mate-panel-applet-frame.c
+Copyright: 2001, 2003, Sun Microsystems, Inc
+           2010, Carlos Garcia Campos <carlosgc@gnome.org>
+License: GPL-2+
+ 
+Files: mate-panel/libmate-panel-applet-private/mate-panel-applet-frame-dbus.c
+Copyright: 2001, 2003, Sun Microsystems, Inc
+           2010, Carlos Garcia Campos <carlosgc@gnome.org>
+           2010, Vincent Untz <vuntz@gnome.org>
+License: GPL-2+
+ 
+Files: applets/notification_area/na-tray.c
+Copyright: 2002, Red Hat, Inc
+           2003, 2006, Vincent Untz
+           2007, Christian Persch
+License: GPL-2+
+ 
+Files: applets/clock/clock.c
+Copyright: 1997-2003, Free Software Foundation, Inc
+License: GPL-2+
+ 
+Files: applets/fish/fish.c
+Copyright: 1998, 2002, Free Software Foundation, Inc
+           2002, 2005, Vincent Untz
+License: GPL-2+
+ 
+Files: applets/notification_area/fixedtip.c
+Copyright: 2001, Havoc Pennington
+           2003, 2006, Vincent Untz
+License: GPL-2+
+ 
+Files: applets/notification_area/fixedtip.h
+Copyright: 2001, Havoc Pennington, 2002, Red Hat Inc
+           2003, 2006, Vincent Untz
+License: GPL-2+
+ 
+Files: mate-panel/libpanel-util/panel-list.c
+Copyright: 2008, Novell, Inc
+           Mark McLoughlin <mark@skynet.ie>
+License: GPL-2+
+ 
+Files: mate-panel/panel-shell.h
+Copyright: 2001, Ximian, Inc
+           2008, Novell, Inc
+           2008, Red Hat, Inc
+License: GPL-2+
+ 
+Files: applets/clock/system-timezone.c
+Copyright: 2000, 2001, Ximian, Inc
+           2004, Sun Microsystems, Inc
+           2008, Novell, Inc
+License: GPL-2+
+ 
+Files: applets/notification_area/main.c
+Copyright: 2002, Red Hat, Inc
+           2003, 2006, Vincent Untz
+           2011, Perberos
+License: GPL-2+
+ 
+Files: mate-panel/panel-layout.h
+Copyright: 2012, Stefano Karapetsas
+License: GPL-2+
+ 
+Files: mate-panel/panel-menu-bar.c
+Copyright: 2003, Sun Microsystems, Inc
+           2004, Vincent Untz
+License: GPL-2+
+ 
+Files: mate-panel/libmate-panel-applet-private/mate-panel-applet-frame-dbus.h
+Copyright: 2001, 2003, Sun Microsystems, Inc
+           2010, Vincent Untz <vuntz@gnome.org>
+License: GPL-2+
+ 
+Files: applets/notification_area/testtray.c
+Copyright: 2002, Anders Carlsson <andersca@gnu.org>
+           2003, 2006, Vincent Untz
+           2006, 2007, Christian Persch
+License: LGPL-2+
+ 
+Files: libmate-panel-applet/mate-panel-applet.c
+Copyright: 2001, Sun Microsystems, Inc
+           2010, Carlos Garcia Campos <carlosgc@gnome.org>
+License: LGPL-2+
+ 
+Files: mate-panel/libegg/eggsmclient-xsmp.c
+Copyright: 1998, Carsten Schaar, and twm
+           1998, The Open Group
+           2007, Novell, Inc
+License: LGPL-2+
+ 
+Files: mate-panel/libegg/eggdesktopfile.c
+Copyright: 1999, 2000, Red Hat Inc
+           2001, George Lebl
+           2007, Novell, Inc
+License: LGPL-2+
+ 
+Files: applets/wncklet/wncklet.h
+Copyright: 2003, Wipro Technologies
+License: LGPL-2+
+ 
+Files: mate-panel/xstuff.c
+Copyright: 1997, 2002, Alfredo K. Kojima
+           2000, 2001, Eazel, Inc
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: mate-panel/panel-util.c
+Copyright: 1997, 2000, The Free Software Foundation
+           2000, Helix Code, Inc
+           2000, 2001, Eazel, Inc
+           2001, George Lebl
+           2002, Sun Microsystems Inc
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: mate-panel/launcher.c
+Copyright: 1997, 2000, The Free Software Foundation
+           2000, Eazel, Inc
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: mate-panel/panel-test-applets.c
+Copyright: 2002, Sun Microsystems, Inc
+License: UNKNOWN
+Specified files lack copyright/license information in the
+(non-present) file header.
+ 
+Files: debian/*
+Copyright: 2011 Stefano Karapetsas <stefano@karapetsas.com>
+           2013 Mike Gabriel <sunweaver@debian.org>
+License: GPL-2+
 
-It was downloaded from:
-
-    <https://github.com/Perberos/Mate-Desktop-Environment>
-
-Upstream Author:
-
-    Perberos <perberos@gmail.com>
-
-Copyright:
-
-    Copyright (C) 2011 Perberos
-
-License:
-
-    This package is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This package is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>
-
+License: GPL-2+
+ 
+This package is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your opinion) any later version.
+.
+This package is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Genaral Public License for more details.
+.
+You should have received a copy og the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>
+.
 On Debian systems, the complete text of the GNU General
 Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
 
-The Debian packaging is:
+License: LGPL-2+
 
-    Copyright (C) 2011 Stefano Karapetsas <stefano@karapetsas.com>
+  The licenses for most software are designed to take away your
+freedom to share and change it. By contrast, the GNU General Public
+Licenses are intended to guarantee your freedom to share and change
+free software--to make sure the software is free for all its users.
 
-you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  This license, the Library General Public License, applies to some
+specially designated Free Software Foundation software, and to any
+other libraries whose authors decide to use it. You can use it for
+your libraries, too.
 
+  When we speak of free software, we are referring to freedom, not
+price. Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+this service if you wish), that you receive source code or can get it
+if you want it, that you can change the software or use pieces of it
+in new free programs; and that you know you can do these things.
+
+  To protect your rights, we need to make restrictions that forbid
+anyone to deny you these rights or to ask you to surrender the rights.
+These restrictions translate to certain responsibilities for you if
+you distribute copies of the library, or if you modify it.
+.
+On Debian systems, the complete text of the GNU General
+Public License version LGPL-2+ can be found in "/usr/share/common-licenses/LGPL-2+".
