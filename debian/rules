@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_install:
+	rm -f debian/tmp/usr/lib/*/*.la
+	rm -f debian/tmp/usr/share/MateConf/gsettings/mate-panel.convert
+	dh_install --list-missing
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--localstatedir=/var \
+		--libexecdir=/usr/lib/mate-panel \
+		--disable-scrollkeeper \
+		--disable-static \
+		--enable-introspection \
+		--enable-gtk-doc \
+		--with-gtk=2.0
+
+override_dh_strip:
+	dh_strip --dbg-package=mate-panel-dbg
+
+get-orig-source:
+	uscan --noconf --force-download --rename --download-current-version --destdir=..
