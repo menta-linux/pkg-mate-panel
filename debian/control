@@ -42,7 +42,7 @@ Build-Depends: debhelper (>= 9),
                mate-common,
                lsb-release,
                libdconf-dev
-Standards-Version: 3.9.3
+Standards-Version: 3.9.5
 Homepage: http://www.mate-desktop.org/
 
 Package: mate-panel
