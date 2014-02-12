@@ -453,8 +453,8 @@ License: UNKNOWN
  (non-present) file header.
 
 Files: debian/*
-Copyright: 2011 Stefano Karapetsas <stefano@karapetsas.com>
-           2013 Mike Gabriel <sunweaver@debian.org>
+Copyright: 2011, Stefano Karapetsas <stefano@karapetsas.com>
+           2013, Mike Gabriel <sunweaver@debian.org>
 License: GPL-2+
 
 License: GPL-2+
