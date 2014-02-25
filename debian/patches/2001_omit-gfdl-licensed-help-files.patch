@@ -1,0 +1,24 @@
+Description: Don't build non-DFSG (GFDL 1.1 licensed) help files
+Author: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -3,7 +3,6 @@
+ 	libmate-panel-applet		\
+ 	applets			\
+ 	doc			\
+-	help			\
+ 	icons			\
+ 	data			\
+ 	man			\
+--- a/configure.ac
++++ b/configure.ac
+@@ -316,9 +316,6 @@
+ doc/Makefile
+ doc/reference/Makefile
+ doc/reference/mate-panel-applet/Makefile
+-help/Makefile
+-help/clock/Makefile
+-help/fish/Makefile
+ man/Makefile
+ ])
+ 
