@@ -44,7 +44,8 @@ Build-Depends: debhelper (>= 9),
                mate-doc-utils,
                mate-doc-utils-gnome,
                lsb-release,
-               libdconf-dev
+               libdconf-dev,
+               dh-autoreconf,	
 Standards-Version: 3.9.5
 Homepage: http://www.mate-desktop.org/
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-mate/mate-panel.git;a=summary

@@ -7,7 +7,7 @@ DTYPE = +dfsg1
 VER  ?= $(subst $(DTYPE),,$(UVER))
 
 %:
-	dh $@ --with python2
+	dh $@ --with autoreconf --with python2
 
 override_dh_install:
 	rm -f debian/tmp/usr/lib/*/*.la
@@ -41,7 +41,8 @@ $(PKG)_$(VER)$(DTYPE).orig.tar.xz:
 	cd $(PKG)-$(VER) \
 	    && find . -depth -type d -name 'windows' -exec $(RM) -r {} \; -printf 'removed %p\n' \
 	    && $(RM) -r -v \
-	        help/
+	        help/ \
+		COPYING-DOCS
 	$(RM) -v $(PKG)_$(VER).orig.tar.*
 	@echo "# Packing..."
 	find -L "$(PKG)-$(VER)" -xdev -type f -print | sort \
