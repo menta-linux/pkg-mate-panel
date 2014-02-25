@@ -60,7 +60,7 @@ Depends: ${shlibs:Depends},
          menu-xdg,
          python,
          mate-polkit,
-         libmate-panel-applet4-1 (= ${binary:Version}),
+         libmate-panel-applet-4-1 (= ${binary:Version}),
          mate-panel-common (= ${source:Version})
 Breaks: mate-panel-common (<< 1.1.1-4)
 Replaces: mate-panel-common (<< 1.1.1-4)
@@ -134,7 +134,7 @@ Priority: extra
 Architecture: any
 Breaks: mate-panel-dbg (<= 1.6.1),
 Depends: ${misc:Depends},
-         libmate-panel-applet4-1 (= ${binary:Version})
+         libmate-panel-applet-4-1 (= ${binary:Version})
 Description: library for MATE Panel applets (debugging symbols)
  The MATE Panel is an essential part of the MATE Desktop, providing
  toolbar-like “panels” which can be attached to the sides of your desktop.
@@ -155,7 +155,7 @@ Section: libdevel
 Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         libmate-panel-applet4-1 (= ${binary:Version}),
+         libmate-panel-applet-4-1 (= ${binary:Version}),
          libgtk2.0-dev,
          libglib2.0-dev
 Provides: libmatepanelapplet-dev
