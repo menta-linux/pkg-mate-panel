@@ -169,7 +169,7 @@ Description: library for MATE Panel applets (development files)
  volume controls and the battery charge indicator, and utilities ranging
  from weather forecast to system monitoring.
  .
- This package contains the development files for the MATE panel applet
+ This package contains the development files of the MATE panel applet
  library.
 
 Package: libmate-panel-applet-doc
@@ -187,7 +187,7 @@ Description: library for MATE Panel applets (documentation files)
  volume controls and the battery charge indicator, and utilities ranging
  from weather forecast to system monitoring.
  .
- This package contains the documentation files for the MATE panel applet
+ This package contains the documentation files of the MATE panel applet
  library.
 
 Package: gir1.2-mate-panel
