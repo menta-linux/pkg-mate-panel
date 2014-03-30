@@ -1,3 +1,9 @@
+mate-panel (1.8.0+dfsg1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 30 Mar 2014 23:56:51 +0200
+
 mate-panel (1.6.2+dfsg1-1) unstable; urgency=low
 
   * Initial release. (Closes: #720230).
