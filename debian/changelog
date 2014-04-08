@@ -3,6 +3,17 @@ mate-panel (1.8.0+dfsg1-1) UNRELEASED; urgency=low
   * New upstream release.
   * debian/watch:
     + Use tagged CGit tarball snapshots as upstream source.
+  * debian/rules:
+    + Build package using autogen.sh.
+  * debian/control:
+    + Drop B-Ds: mate-doc-utils, mate-doc-utils-gnome.
+  * debian/copyright:
+    + Point to git.mate-desktop.org in Source: field.
+    + Adapt to file changes in new upstream source tree.
+  * lintian: Drop unused overrides.
+  * debian/changelog:
+    + Fix ITP closure in previous changelog stanza.
+    + Close mate-panel ITP now. (Closes: #730230).
 
  -- Mike Gabriel <sunweaver@debian.org>  Sun, 30 Mar 2014 23:56:51 +0200
 
