@@ -12,13 +12,13 @@ Author: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
  	man			\
 --- a/configure.ac
 +++ b/configure.ac
-@@ -316,9 +316,6 @@
+@@ -346,9 +346,6 @@
  doc/Makefile
  doc/reference/Makefile
  doc/reference/mate-panel-applet/Makefile
 -help/Makefile
--help/clock/Makefile
--help/fish/Makefile
+-help/mate-clock/Makefile
+-help/mate-fish/Makefile
  man/Makefile
  ])
  
