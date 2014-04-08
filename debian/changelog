@@ -19,6 +19,6 @@ mate-panel (1.8.0+dfsg1-1) UNRELEASED; urgency=low
 
 mate-panel (1.6.2+dfsg1-1) unstable; urgency=low
 
-  * Initial release. (Closes: #720230).
+  * Initial release. (Closes: #730230).
 
  -- Mike Gabriel <sunweaver@debian.org>  Tue, 25 Feb 2014 13:21:00 +0100
