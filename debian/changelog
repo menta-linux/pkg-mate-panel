@@ -1,5 +1,5 @@
-mate-panel (1.6.2+dfsg1-1) UNRELEASED; urgency=low
+mate-panel (1.6.2+dfsg1-1) unstable; urgency=low
 
   * Initial release. (Closes: #720230).
 
- -- Stefano Karapetsas <stefano@karapetsas.com>  Tue, 14 Jan 2014 15:41:22 +0100
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 25 Feb 2014 13:21:00 +0100
