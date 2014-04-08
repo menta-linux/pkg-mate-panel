@@ -1,4 +1,4 @@
-mate-panel (1.8.0+dfsg1-1) UNRELEASED; urgency=low
+mate-panel (1.8.0+dfsg1-1) unstable; urgency=low
 
   * New upstream release. (Closes: #743898).
   * debian/changelog:
@@ -18,7 +18,7 @@ mate-panel (1.8.0+dfsg1-1) UNRELEASED; urgency=low
     + Use tagged CGit tarball snapshots as upstream source.
   * lintian: Drop unused overrides.
 
- -- Mike Gabriel <sunweaver@debian.org>  Sun, 30 Mar 2014 23:56:51 +0200
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 08 Apr 2014 23:04:53 +0200
 
 mate-panel (1.6.2+dfsg1-1) unstable; urgency=low
 
