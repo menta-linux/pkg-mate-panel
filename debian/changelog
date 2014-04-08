@@ -1,8 +1,6 @@
 mate-panel (1.8.0+dfsg1-1) UNRELEASED; urgency=low
 
   * New upstream release.
-  * debian/watch:
-    + Use tagged CGit tarball snapshots as upstream source.
 
  -- Mike Gabriel <sunweaver@debian.org>  Sun, 30 Mar 2014 23:56:51 +0200
 
