@@ -14,7 +14,7 @@ DHFLAGS=--parallel
 override_dh_install:
 	rm -f debian/tmp/usr/lib/*/*.la
 	rm -f debian/tmp/usr/share/MateConf/gsettings/mate-panel.convert
-	dh_install --list-missing
+	dh_install --fail-missing
 
 override_dh_auto_configure:
 	# upstream tarball is without configure. autogen.sh will create it
