@@ -1,3 +1,24 @@
+mate-panel (1.8.1+dfsg1-1) unstable; urgency=medium
+
+  [ Vangelis Mouhtsis ]
+  * debian/rules:
+    + Replace on dh_install --list-missing -> --fail-missing.
+  * debian/control:
+    + Bump Standards: to 3.9.6. No changes needed.
+
+  [ Mike Gabriel ]
+  * New upstream release. (Closes: #762094).
+  * debian/copyright:
+    + Add copyright information for po/*.po files. Really mention all upstream
+      files.
+
+  [ Iain Lane ]
+  * debian/gir1.2-mate-panel.install:
+    + Install typelib file into the multiarch libdir. (Closes: #762834,
+      #763232).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 29 Sep 2014 09:29:58 +0200
+
 mate-panel (1.8.0+dfsg1-2) unstable; urgency=low
 
   * debian/rules:
