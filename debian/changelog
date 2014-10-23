@@ -1,3 +1,16 @@
+mate-panel (1.8.1+dfsg1-2) unstable; urgency=medium
+
+  * debian/patches:
+    + Add 0001_update-marco-wm-name.patch. Adapt to WM name change in marco
+      v1.8.2.
+  * debian/rules:
+    + Use upstream's NEWS file as upstream ChangeLog.
+  * debian/copyright:
+    + Remove applets/clock/clock-typebuiltins.*, not in upstream sources
+      anymore.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 23 Oct 2014 12:25:07 +0200
+
 mate-panel (1.8.1+dfsg1-1) unstable; urgency=medium
 
   [ Vangelis Mouhtsis ]
