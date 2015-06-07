@@ -1,3 +1,4 @@
 0001_update-marco-wm-name.patch
+0002_avoid-dereferencing-NULL-pointer.patch
 2001_omit-gfdl-licensed-help-files.patch
 2002_stretched-buttons-on-vertical-plains.patch
