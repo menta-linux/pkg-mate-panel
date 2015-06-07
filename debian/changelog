@@ -3,7 +3,7 @@ mate-panel (1.8.1+dfsg1-4) unstable; urgency=medium
   * debian/patches:
     + Add 2002_stretched-buttons-on-vertical-plains.patch (Debian/Ubuntu
       specific). Fix window List - stretched buttons on vertical panel
-      orientation. (Closes: #760311).
+      orientation. (Closes: #785272).
     + Add 0002_avoid-dereferencing-NULL-pointer.patch. Fix NULL pointer
       dereference in GList extensions. (Closes: #779854).
     + Update fuzzy 0001_update-marco-wm-name.patch.
