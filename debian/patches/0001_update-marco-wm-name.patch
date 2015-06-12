@@ -1,0 +1,23 @@
+From 75e3f6c2143ac68829c7e699ea555b91ee4021d0 Mon Sep 17 00:00:00 2001
+From: Nathan Torchia <nemasu@gmail.com>
+Date: Fri, 3 Oct 2014 10:24:21 +0900
+Subject: [PATCH] Update Marco WM name as per Marco commit
+
+Closes https://github.com/mate-desktop/mate-panel/pull/240
+
+ cbf24f5d78719b930fc0cd6c0c80e00e9d62c95a
+---
+ applets/wncklet/workspace-switcher.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/applets/wncklet/workspace-switcher.c
++++ b/applets/wncklet/workspace-switcher.c
+@@ -143,7 +143,7 @@
+ 
+ 	if (!wm_name)
+ 		pager->wm = PAGER_WM_UNKNOWN;
+-	else if (strcmp(wm_name, "Marco") == 0)
++	else if (strcmp(wm_name, "Metacity (Marco)") == 0)
+ 		pager->wm = PAGER_WM_MARCO;
+ 	else if (strcmp(wm_name, "Compiz") == 0)
+ 		pager->wm = PAGER_WM_COMPIZ;
