@@ -462,6 +462,9 @@ Files: .tx/config
        data/default.layout
        data/linuxmint.layout
        data/opensuse.layout
+       data/fedora.layout
+       data/mageia.layout
+       data/ubuntu.layout
        doc/Makefile.am
        doc/*.txt
        doc/reference/Makefile.am
