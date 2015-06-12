@@ -435,8 +435,6 @@ Files: .tx/config
        applets/clock/clock-marshallers.*
        applets/clock/clock-menu.xml
        applets/clock/clock-sunpos.h
-       applets/clock/clock-typebuiltins.c
-       applets/clock/clock-typebuiltins.h
        applets/clock/clock.ui
        applets/clock/org.mate.panel.*.in
        applets/clock/pixmaps/Makefile.am
