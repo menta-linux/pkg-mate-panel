@@ -1,0 +1,23 @@
+From 728faccf9ad9e6f6eff796c0d7f9f95a34e1885d Mon Sep 17 00:00:00 2001
+From: monsta <monsta@inbox.ru>
+Date: Thu, 5 Mar 2015 17:56:43 +0300
+Subject: [PATCH] fix logic a bit - avoid dereferencing NULL pointer
+
+---
+ mate-panel/libpanel-util/panel-list.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mate-panel/libpanel-util/panel-list.c b/mate-panel/libpanel-util/panel-list.c
+index 154153c..3c0a9ee 100644
+--- a/mate-panel/libpanel-util/panel-list.c
++++ b/mate-panel/libpanel-util/panel-list.c
+@@ -166,7 +166,7 @@ panel_g_list_resort_item (GList        *list,
+ 
+ 	dl = g_list_find (list, data);
+ 
+-	if (dl != NULL)
++	if (dl == NULL)
+ 		return list;
+ 
+ 	while (dl->next &&
+
