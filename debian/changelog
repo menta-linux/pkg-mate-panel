@@ -1,3 +1,17 @@
+mate-panel (1.10.0+dfsg1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+  * debian/copyright:
+    + Update for new upstream release.
+  * debian/patches:
+    + Drop 0001_update-marco-wm-name.patch. Applied upstream.
+    + Drop 0002_avoid-dereferencing-NULL-pointer.patch. Applied
+    upstream.
+    + Rebased debian/patches/2002_stretched-buttons-on-vertical-plains.patch
+    for mate-panel 1.10.0.
+
+ -- Martin Wimpress <code@flexion.org>  Thu, 11 Jun 2015 04:24:26 +0100
+
 mate-panel (1.8.1+dfsg1-4) unstable; urgency=medium
 
   * debian/patches:
