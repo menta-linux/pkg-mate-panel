@@ -187,6 +187,7 @@ Description: library for MATE Panel applets (documentation files)
  library.
 
 Package: gir1.2-mate-panel
+Section: introspection
 Architecture: any
 Depends: gir1.2-gtk-2.0,
          ${gir:Depends},
