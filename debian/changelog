@@ -1,3 +1,22 @@
+mate-panel (1.10.1-1~exp2) UNRELEASED; urgency=medium
+
+  * debian/patches:
+    + Drop 2001_omit-gfdl-licensed-help-files.patch because mate-panel help
+    files are dfsg compliant.
+  * debian/control:
+    + Remove superfluous avahi dependencies.
+    + Add dh-python.
+  * debian/mate-panel-common.install:
+    + Add usr/share/help.
+  * debian/rules:
+    + Remove dsfg suffix.
+  * debian/watch:
+    + Remove dfsg suffix.
+  * debian/copyright:
+    + Add copyright attribution for help authors and translators.
+
+ -- Martin Wimpress <code@flexion.org>  Wed, 29 Jul 2015 20:23:14 +0100
+
 mate-panel (1.10.1+dfsg1-1~exp1) experimental; urgency=medium
 
   * New upstream release.
