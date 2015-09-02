@@ -1,3 +1,52 @@
+mate-panel (1.10.1+gfdl1-1) UNRELEASED; urgency=medium
+
+  * debian/patches:
+    + Drop 2001_omit-gfdl-licensed-help-files.patch because mate-panel help
+    files are dfsg compliant.
+  * debian/control:
+    + Remove superfluous avahi dependencies.
+    + Add dh-python.
+  * debian/mate-panel-common.install:
+    + Add usr/share/help.
+  * debian/rules:
+    + Remove dsfg suffix.
+  * debian/watch:
+    + Remove dfsg suffix.
+  * debian/copyright:
+    + Add copyright attribution for help authors and translators.
+
+ -- Martin Wimpress <code@flexion.org>  Wed, 29 Jul 2015 20:23:14 +0100
+
+mate-panel (1.10.1+dfsg1-1~exp1) experimental; urgency=medium
+
+  * New upstream release.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Fri, 17 Jul 2015 14:12:57 +0200
+
+mate-panel (1.10.0+dfsg1-1~exp1) experimental; urgency=low
+
+  [ Martin Wimpress ]
+  * New upstream release.
+  * debian/copyright:
+    + Update for new upstream release.
+  * debian/patches:
+    + Drop 0001_update-marco-wm-name.patch. Applied upstream.
+    + Drop 0002_avoid-dereferencing-NULL-pointer.patch. Applied
+      upstream.
+    + Rebased debian/patches/2002_stretched-buttons-on-vertical-plains.patch
+      for mate-panel 1.10.0.
+
+  [ Mike Gabriel ]
+  * debian/rules:
+    + Create repacked orig tarball in ../ rather than in $(CURDIR).
+  * debian/control:
+    + Versioned B-D: mate-common (>= 1.10).
+    + Update Section (gir1.2-mate-panel): introspection.
+  * debian/copyright:
+    + Remove files that are not shipped in the upstream sources anymore.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 16 Jun 2015 20:31:27 +0200
+
 mate-panel (1.8.1+dfsg1-4) unstable; urgency=medium
 
   * debian/patches:
