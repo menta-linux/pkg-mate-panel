@@ -1,21 +1,30 @@
-mate-panel (1.10.1+gfdl1-1) UNRELEASED; urgency=medium
+mate-panel (1.10.1+gfdl1-1) unstable; urgency=medium
 
+  [ Martin Wimpress ]
   * debian/patches:
     + Drop 2001_omit-gfdl-licensed-help-files.patch because mate-panel help
-    files are dfsg compliant.
+      files are DFSG compliant.
   * debian/control:
     + Remove superfluous avahi dependencies.
     + Add dh-python.
   * debian/mate-panel-common.install:
     + Add usr/share/help.
   * debian/rules:
-    + Remove dsfg suffix.
+    + Remove +dsfg1 suffix.
   * debian/watch:
-    + Remove dfsg suffix.
+    + Remove +dfsg1 suffix.
   * debian/copyright:
     + Add copyright attribution for help authors and translators.
+  * debian/{watch,changelog}:
+    + Temporarily use +gfdl1 suffix to make the package's version uploaded to
+      unstable greater than the package version in experimental.
 
- -- Martin Wimpress <code@flexion.org>  Wed, 29 Jul 2015 20:23:14 +0100
+  [ Mike Gabriel ]
+  * Upload to unstable.
+  * debian/copyright:
+    + Mention new panel .layout files.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 02 Sep 2015 05:27:38 +0200
 
 mate-panel (1.10.1+dfsg1-1~exp1) experimental; urgency=medium
 
