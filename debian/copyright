@@ -488,8 +488,11 @@ Files: .tx/config
        data/mate-panel.convert
        data/org.mate.panel.*.in
        data/default.layout
+       data/fedora.layout
        data/linuxmint.layout
+       data/mageia.layout
        data/opensuse.layout
+       data/ubuntu.layout
        doc/Makefile.am
        doc/*.txt
        doc/reference/Makefile.am
