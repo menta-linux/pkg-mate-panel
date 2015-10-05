@@ -20,10 +20,10 @@ override_dh_auto_configure:
 		--disable-silent-rules \
 		--localstatedir=/var \
 		--libexecdir=/usr/lib/mate-panel \
-		--disable-scrollkeeper \
 		--disable-static \
 		--enable-introspection \
-		--enable-gtk-doc
+		--enable-gtk-doc \
+		--with-gtk=2.0
 
 override_dh_strip:
 	dh_strip -pmate-panel --dbg-package=mate-panel-dbg
