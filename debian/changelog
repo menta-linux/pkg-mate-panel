@@ -4,13 +4,6 @@ mate-panel (1.12.0-1) UNRELEASED; urgency=medium
 
  -- Martin Wimpress <code@flexion.org>  Mon, 09 Nov 2015 19:35:20 +0000
 
-mate-panel (1.10.1+gfdl1-2~wily1.0) wily; urgency=medium
-
-  * debian/patches:
-    + Add 2003-do-not-rescale-icons.patch.
-
- -- Martin Wimpress <code@flexion.org>  Thu, 03 Sep 2015 16:59:12 +0100
-
 mate-panel (1.10.1+gfdl1-1) unstable; urgency=medium
 
   [ Martin Wimpress ]
