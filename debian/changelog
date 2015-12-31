@@ -1,8 +1,23 @@
-mate-panel (1.12.1-1) UNRELEASED; urgency=medium
+mate-panel (1.12.1-1) unstable; urgency=medium
 
+  [ Martin Wimpress ]
   * New upstream release.
+  * debian/patches:
+    + Remove obsolete patches 0001_update-marco-wm-name.patch and
+      0002_avoid-dereferencing-NULL-pointer.patch.
+    + Drop obsolete 2002_stretched-buttons-on-vertical-plains.patch.
+  * debian/copyright:
+    + Update copyright attributions.
+  * debian/watch:
+    + Drop +gfdl suffix.
+  * debian/control:
+    + Versioned B-D: mate-common (>= 1.12) and libmate-desktop-dev
+      (>= 1.12).
+  * debian/rules:
+    + Remove obsolete --disable-scrollkeeper build option. Add --with-gtk=2.0
+      build option.
 
- -- Martin Wimpress <code@flexion.org>  Mon, 09 Nov 2015 19:35:20 +0000
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 31 Dec 2015 14:33:10 +0100
 
 mate-panel (1.10.1+gfdl1-1) unstable; urgency=medium
 
