@@ -1,3 +1,9 @@
+mate-panel (1.12.2-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+
+ -- Martin Wimpress <code@flexion.org>  Tue, 26 Jan 2016 13:44:36 +0000
+
 mate-panel (1.12.1-1) unstable; urgency=medium
 
   [ Martin Wimpress ]
