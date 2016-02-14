@@ -1,0 +1,38 @@
+From 03afcd375938d8232f204703b3f083e821f7c507 Mon Sep 17 00:00:00 2001
+From: mihai-bica <bicamihai.m@gmail.com>
+Date: Sat, 2 May 2015 19:02:20 +0300
+Subject: [PATCH] fix Window List - vertical panel issue #269
+
+v3: rebased against mate-panel 1.10.0
+    Martin Wimpress <code@flexion.org>
+
+--- a/applets/wncklet/window-list.c
++++ b/applets/wncklet/window-list.c
+@@ -122,12 +122,8 @@
+ 
+ 	tasklist->orientation = new_orient;
+ 
+-#ifdef WNCK_CHECK_VERSION
+-#if WNCK_CHECK_VERSION (3, 4, 6)
+-	wnck_tasklist_set_orientation (tasklist->tasklist, new_orient);
+-#endif
+-#endif
+-	tasklist_update(tasklist);
++	wnck_tasklist_set_orientation(WNCK_TASKLIST (tasklist->tasklist), new_orient);
++ 	tasklist_update(tasklist);
+ }
+ 
+ #if GTK_CHECK_VERSION (3, 0, 0)
+@@ -448,12 +444,7 @@
+ 	tasklist->tasklist = wnck_tasklist_new(NULL);
+ #endif
+ 
+-#ifdef WNCK_CHECK_VERSION
+-#if WNCK_CHECK_VERSION (3, 4, 6)
+-	wnck_tasklist_set_orientation (WNCK_TASKLIST (tasklist->tasklist), tasklist->orientation);
+-	wnck_tasklist_set_middle_click_close (WNCK_TASKLIST (tasklist->tasklist), TRUE);
+-#endif
+-#endif
++	wnck_tasklist_set_orientation(WNCK_TASKLIST (tasklist->tasklist), tasklist->orientation);
+ 
+ 	wnck_tasklist_set_icon_loader(WNCK_TASKLIST(tasklist->tasklist), icon_loader_func, tasklist, NULL);
