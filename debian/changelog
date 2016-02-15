@@ -1,8 +1,22 @@
-mate-panel (1.12.2-1) UNRELEASED; urgency=medium
+mate-panel (1.12.2-1) unstable; urgency=medium
 
+  [ Martin Wimpress ]
   * New upstream release.
 
- -- Martin Wimpress <code@flexion.org>  Tue, 26 Jan 2016 13:44:36 +0000
+  [ Mike Gabriel ]
+  * debian/rules:
+    + Enable dh_girepository helper.
+  * debian/patches:
+    + Re-introduce 2002_stretched-buttons-on-vertical-plains.patch.
+      (Closes: #785272, #810215)."
+  * debian/control:
+    + Drop B-Ds: gir1.2-gdkpixbuf-2.0, gir1.2-glib-2.0, gir1.2-gtk-2.0,
+      gir1.2-pango-1.0. Already pulled in as dependencies of lib*-dev
+      packages found in Build-Depends: field.
+    + Add B-D: libatk1.0-dev instead of gir1.2-atk-1.0.
+    + Versioned B-D on libwnck-dev (>= 2.30.7-5~).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 14 Feb 2016 15:31:24 +0100
 
 mate-panel (1.12.1-1) unstable; urgency=medium
 
