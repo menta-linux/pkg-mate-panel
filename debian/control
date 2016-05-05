@@ -36,7 +36,7 @@ Build-Depends: debhelper (>= 9),
                libxau-dev,
                libxrandr-dev,
                lsb-release,
-               mate-common (>= 1.12),
+               mate-common (>= 1.14),
                python,
                yelp-tools,
 Standards-Version: 3.9.6
