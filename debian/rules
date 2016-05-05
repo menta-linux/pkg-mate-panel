@@ -11,7 +11,6 @@ include /usr/share/dpkg/buildflags.mk
 
 override_dh_install:
 	rm -f debian/tmp/usr/lib/*/*.la
-	rm -f debian/tmp/usr/share/MateConf/gsettings/mate-panel.convert
 	dh_install --fail-missing
 
 override_dh_installchangelogs:
