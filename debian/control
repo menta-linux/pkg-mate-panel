@@ -187,7 +187,6 @@ Architecture: any
 Depends: gir1.2-gtk-3.0,
          ${gir:Depends},
          ${misc:Depends},
-         ${python:Depends},
          ${shlibs:Depends},
 Description: GObject introspection data for MATE panel
  The MATE Panel is an essential part of the MATE Desktop, providing
