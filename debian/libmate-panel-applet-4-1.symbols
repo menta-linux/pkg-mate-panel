@@ -1,4 +1,5 @@
 libmate-panel-applet-4.so.1 libmate-panel-applet-4-1 #MINVER#
+ _mate_panel_applet_apply_css@Base 1.14.0
  mate_panel_applet_background_type_get_type@Base 1.6.1
  mate_panel_applet_factory_get_type@Base 1.6.1
  mate_panel_applet_factory_main@Base 1.6.1
@@ -29,3 +30,5 @@ libmate-panel-applet-4.so.1 libmate-panel-applet-4-1 #MINVER#
  mate_panel_applet_settings_set_gslist@Base 1.6.1
  mate_panel_applet_setup_menu@Base 1.6.1
  mate_panel_applet_setup_menu_from_file@Base 1.6.1
+ panel_plug_get_type@Base 1.14.0
+ panel_plug_new@Base 1.14.0
