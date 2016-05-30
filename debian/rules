@@ -29,8 +29,8 @@ override_dh_auto_configure:
 		--with-gtk=3.0
 
 override_dh_strip:
-	dh_strip -pmate-panel --dbg-package=mate-panel-dbg
-	dh_strip -plibmate-panel-applet-4-1 --dbg-package=libmate-panel-applet-dbg
+	dh_strip -pmate-panel --dbgsym-migration='mate-panel-dbg (<< 1.14.0-2~)'
+	dh_strip -plibmate-panel-applet-4-1 --dbgsym-migration='libmate-panel-applet-dbg (<< 1.14.0-2~)'
 
 get-orig-source:
 	uscan --noconf --force-download --rename --download-current-version --destdir=..
