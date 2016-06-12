@@ -1,11 +1,14 @@
-mate-panel (1.14.1-1) UNRELEASED; urgency=medium
+mate-panel (1.14.1-1) unstable; urgency=medium
 
   [ Vangelis Mouhtsis ]
-  * debian/control rules: dbgsym: Don't build dbg:packages anymore. See https://wiki.debian.org/AutomaticDebugPackages.
+  * debian/{control,rules}:
+    Don't build dbg:packages anymore. See
+    https://wiki.debian.org/AutomaticDebugPackages.
 
   [ Martin Wimpress ]
+  * New upstream release.
 
- -- Vangelis Mouhtsis <vangelis@gnugr.org>  Wed, 08 Jun 2016 13:42:20 +0100
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 12 Jun 2016 21:25:52 +0200
 
 mate-panel (1.14.0-1) unstable; urgency=medium
 
