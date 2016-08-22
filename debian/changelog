@@ -1,8 +1,9 @@
-mate-panel (1.14.2-1) UNRELEASED; urgency=medium
+mate-panel (1.14.2-1) unstable; urgency=medium
 
+  [ Martin Wimpress ]
   * New upstream release.
 
- -- Martin Wimpress <code@flexion.org>  Wed, 17 Aug 2016 14:37:39 +0100
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 22 Aug 2016 11:23:45 +0200
 
 mate-panel (1.14.1-1) unstable; urgency=medium
 
