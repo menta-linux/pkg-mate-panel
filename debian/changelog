@@ -2,6 +2,8 @@ mate-panel (1.16.0-1) UNRELEASED; urgency=medium
 
   * New upstream release. (Closes: #836301, #836994, #837875, #836137,
   #838142, #837655).
+  * debian/control:
+    + Dependencies updated for MATE 1.16.
 
  -- Martin Wimpress <code@flexion.org>  Fri, 23 Sep 2016 10:46:47 +0100
 
