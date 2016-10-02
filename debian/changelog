@@ -1,11 +1,19 @@
-mate-panel (1.16.0-1) UNRELEASED; urgency=medium
+mate-panel (1.16.0-1) unstable; urgency=medium
 
-  * New upstream release. (Closes: #836301, #836994, #837875, #836137,
-  #838142, #837655).
+  [ Martin Wimpress ]
+  * New upstream release.
+    - Contains fixes for various issues observed with GTK 3.21 and newer.
+      (Closes: #836301, #836994, #837875, #836137, #838142, #837655).
+
+  [ Vangelis Mouhtsis ]
+  * debian/changelog:
+    + Fix missing changelog items for 1.15.1-0ubuntu1 upload.
   * debian/control:
     + Dependencies updated for MATE 1.16.
+  * debian/watch:
+    + Update version matching again to _not_ support development releases.
 
- -- Martin Wimpress <code@flexion.org>  Fri, 23 Sep 2016 10:46:47 +0100
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 02 Oct 2016 22:27:36 +0200
 
 mate-panel (1.15.1-0ubuntu1) yakkety; urgency=medium
 
