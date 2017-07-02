@@ -14,7 +14,15 @@ mate-panel (1.18.3-1) UNRELEASED; urgency=medium
   * Update d/patches/series
   * New upstream release
 
- -- Aron Xu <aron@debian.org>  Wed, 21 Jun 2017 20:37:55 +0800
+  [ Vangelis Mouhtsis ]
+  * debian/compat:
+    + Update compat version.
+  * debian/control:
+    + Bump debhelper version to (>= 10).
+  * debian/rules:
+    + Add new block for override_dh_missing.
+
+ -- Vangelis Mouhtsis <vangelis@gnugr.org>  Mon, 03 Jul 2017 00:55:23 +0300
 
 mate-panel (1.16.2-1) unstable; urgency=medium
 
