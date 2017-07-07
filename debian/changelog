@@ -1,3 +1,11 @@
+mate-panel (1.16.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/patches:
+    + Cherry-pick 0001_memleak-fix.patch from upstream Git.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Fri, 28 Apr 2017 10:35:00 +0200
+
 mate-panel (1.16.0-2) unstable; urgency=medium
 
   [ Martin Wimpress ]
