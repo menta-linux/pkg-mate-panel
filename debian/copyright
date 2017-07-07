@@ -128,7 +128,7 @@ Files: applets/notification_area/na-box.c
        applets/notification_area/na-host.c
        applets/notification_area/na-host.h
        applets/notification_area/na-item.c
-       applets/notification_area/na-item.h       
+       applets/notification_area/na-item.h
 Copyright: 2016 Alberts Muktupāvels
            2017 Colomban Wendling <cwendling@hypra.fr>
 License: GPL-2+
