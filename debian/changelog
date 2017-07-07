@@ -1,21 +1,3 @@
-mate-panel (1.18.3-1) UNRELEASED; urgency=medium
-
-  [ Martin Wimpress ]
-  * debian/control: Drop obsolete B-D for libcanberra-gtk3-dev.
-  * debian/copyright: Update copyright attributions.
-  * debian/control: Dependencies updated for MATE 1.17.
-  * debian/control: Dependencies updated for MATE 1.18.
-  * debian/copyright: Update copyright attributions.
-  * debian/rules: Disable Python, it is no longer required.
-  * debian/rules: Remove obsolete --with-gtk=3.0
-  * debian/patches: 1000_prevent_menubar_destruction_when_enabling_global_menus.patch.
-
-  [ Aron Xu ]
-  * Update d/patches/series
-  * New upstream release
-
- -- Aron Xu <aron@debian.org>  Wed, 21 Jun 2017 20:37:55 +0800
-
 mate-panel (1.16.0-2) unstable; urgency=medium
 
   [ Martin Wimpress ]
