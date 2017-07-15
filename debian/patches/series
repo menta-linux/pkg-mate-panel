@@ -1,2 +1,3 @@
 0001_memleak-fix.patch
 1000_prevent_menubar_destruction_when_enabling_global_menus.patch
+0000_add_gsettings_key_to_enable_sni.patch
