@@ -9,6 +9,7 @@ mate-panel (1.18.3-1) UNRELEASED; urgency=medium
   * debian/rules: Disable Python, it is no longer required.
   * debian/rules: Remove obsolete --with-gtk=3.0
   * debian/patches: 1000_prevent_menubar_destruction_when_enabling_global_menus.patch.
+  * debian/patches: Add debian/patches/0001_no_scale.patch.
 
   [ Aron Xu ]
   * Update d/patches/series
@@ -21,6 +22,8 @@ mate-panel (1.18.3-1) UNRELEASED; urgency=medium
     + Bump debhelper version to (>= 10.3~).
   * debian/rules:
     + Add new block for override_dh_missing.
+  * debian/control:
+    + Bump Standards-Version: to 4.0.0. No changes needed.
 
  -- Vangelis Mouhtsis <vangelis@gnugr.org>  Mon, 03 Jul 2017 00:55:23 +0300
 
