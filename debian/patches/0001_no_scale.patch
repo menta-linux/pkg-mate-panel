@@ -1,3 +1,6 @@
+Description: High dpi scaling does not work... so let's diable it for now...
+Author: Martin Wimpress <martin.wimpress@ubuntu.com>
+
 diff --git a/mate-panel/main.c b/mate-panel/main.c
 index 8355a22..e3241bc 100644
 --- a/mate-panel/main.c
