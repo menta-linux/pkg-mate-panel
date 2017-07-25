@@ -1,19 +1,22 @@
-mate-panel (1.18.3-1) UNRELEASED; urgency=medium
-
-  [ Martin Wimpress ]
-  * debian/control: Drop obsolete B-D for libcanberra-gtk3-dev.
-  * debian/copyright: Update copyright attributions.
-  * debian/control: Dependencies updated for MATE 1.17.
-  * debian/control: Dependencies updated for MATE 1.18.
-  * debian/copyright: Update copyright attributions.
-  * debian/rules: Disable Python, it is no longer required.
-  * debian/rules: Remove obsolete --with-gtk=3.0
-  * debian/patches: 1000_prevent_menubar_destruction_when_enabling_global_menus.patch.
-  * debian/patches: Add debian/patches/0001_no_scale.patch.
+mate-panel (1.18.4-1) unstable; urgency=medium
 
   [ Aron Xu ]
-  * Update d/patches/series
   * New upstream release
+
+  [ Martin Wimpress ]
+  * debian/control:
+    + Dependencies updated for MATE 1.17.
+    + Dependencies updated for MATE 1.18.
+    + Drop obsolete B-D for libcanberra-gtk3-dev.
+  * debian/copyright:
+    + Update copyright attributions.
+  * debian/rules:
+    + Disable Python, it is no longer required.
+    + Remove obsolete --with-gtk=3.0
+  * debian/patches:
+    + Add 1000_prevent_menubar_destruction_when_enabling_global_menus.patch.
+    + Add 0000_add_gsettings_key_to_enable_sni.patch.
+    + Add debian/patches/0001_no_scale.patch.
 
   [ Vangelis Mouhtsis ]
   * debian/compat:
@@ -25,7 +28,13 @@ mate-panel (1.18.3-1) UNRELEASED; urgency=medium
   * debian/control:
     + Bump Standards-Version: to 4.0.0. No changes needed.
 
- -- Vangelis Mouhtsis <vangelis@gnugr.org>  Mon, 03 Jul 2017 00:55:23 +0300
+  [ Mike Gabriel ]
+  * debian/rules:
+    + Disable autoreconf, handled by autogen.sh.
+  * debian/patches:
+    + Drop 0001_memleak-fix.patch. Included in this upstream release.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 25 Jul 2017 11:45:14 +0200
 
 mate-panel (1.16.2-1) unstable; urgency=medium
 
