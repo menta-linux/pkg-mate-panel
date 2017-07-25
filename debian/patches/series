@@ -1,7 +1,2 @@
 0001_memleak-fix.patch
 1000_prevent_menubar_destruction_when_enabling_global_menus.patch
-<<<<<<< HEAD
-=======
-0000_add_gsettings_key_to_enable_sni.patch
-0001_no_scale.patch
->>>>>>> f90bbb1... debian/patches: Add debian/patches/0001_no_scale.patch.
