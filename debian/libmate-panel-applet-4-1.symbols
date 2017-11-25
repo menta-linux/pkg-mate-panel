@@ -1,6 +1,9 @@
 libmate-panel-applet-4.so.1 libmate-panel-applet-4-1 #MINVER#
  _mate_panel_applet_apply_css@Base 1.14.0
  mate_panel_applet_background_type_get_type@Base 1.6.1
+ g_cclosure_marshal_VOID__ENUM@Base 1.18.6
+ g_cclosure_marshal_VOID__INT@Base 1.18.6
+ g_cclosure_marshal_VOID__UINT@Base 1.18.6
  mate_panel_applet_factory_get_type@Base 1.6.1
  mate_panel_applet_factory_main@Base 1.6.1
  mate_panel_applet_factory_new@Base 1.6.1
