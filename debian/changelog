@@ -1,8 +1,15 @@
-mate-panel (1.18.7-1) UNRELEASED; urgency=medium
+mate-panel (1.18.7-1) unstable; urgency=medium
 
+  [ Martin Wimpress ]
   * New upstream release. (LP: #1371069)
 
- -- Martin Wimpress <martin.wimpress@ubuntu.com>  Mon, 08 Jan 2018 09:13:09 +0000
+  [ Mike Gabriel ]
+  * debian/control:
+    + Bump Standards-Version: to 4.1.3. No changes needed.
+  * debian/{control,compat}:
+    + Bump to DH version level 11.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 09 Jan 2018 16:22:52 +0100
 
 mate-panel (1.18.6-1) unstable; urgency=medium
 
