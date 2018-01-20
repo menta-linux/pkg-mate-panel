@@ -1,3 +1,17 @@
+mate-panel (1.18.7-2) unstable; urgency=medium
+
+  [ Vangelis Mouhtsis ]
+  * debian/control:
+    + Rename pretty name of our team -> Debian+Ubuntu MATE Packaging Team.
+    + Update Maintainer: field to debian-mate ML on lists.debian.org.
+    + Temporarily have pkg-mate-team ML under Uploaders:.
+
+  [ Mike Gabriel ]
+  * debian/libmate-panel-applet-4-1.symbols:
+    + Update to play well with recent changes in unstable. (Closes: #887756).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sat, 20 Jan 2018 02:05:04 +0100
+
 mate-panel (1.18.7-1) unstable; urgency=medium
 
   [ Martin Wimpress ]
