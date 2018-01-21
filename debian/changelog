@@ -1,3 +1,12 @@
+mate-panel (1.18.7-4) unstable; urgency=medium
+
+  * debian/control:
+    + Remove empty line at EOF.
+    + Add another B:/R: couple for gir1.2-mate-panel (<< 1.18.7-3~) to
+      gir1.2-matepanelapplet-4.0. (Closes: #887876).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 21 Jan 2018 17:43:53 +0100
+
 mate-panel (1.18.7-3) unstable; urgency=medium
 
   * Rename GIR package to match Debian Policy.
