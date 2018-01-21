@@ -171,4 +171,3 @@ Depends: ${misc:Depends},
 Description: GObject introspection data for libmate-panel-applet4-1 (transitional package)
  This package is a transitional package to gir1.2-matepanelapplet-4.0. The
  package can be safely removed.
-
