@@ -1,3 +1,9 @@
+mate-panel (1.18.7-3) unstable; urgency=medium
+
+  * Rename GIR package to match Debian Policy.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 21 Jan 2018 02:11:29 +0100
+
 mate-panel (1.18.7-2) unstable; urgency=medium
 
   [ Vangelis Mouhtsis ]
