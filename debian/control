@@ -150,6 +150,8 @@ Architecture: any
 Depends: ${gir:Depends},
          ${misc:Depends},
          ${shlibs:Depends},
+Breaks: gir1.2-mate-panel (<< 1.18.7-3~),
+Replaces: gir1.2-mate-panel (<< 1.18.7-3~),
 Description: GObject introspection data for MATE panel
  The MATE Panel is an essential part of the MATE Desktop, providing
  toolbar-like “panels” which can be attached to the sides of your desktop.
