@@ -93,9 +93,9 @@ License: GPL-2+
 
 Files: libmate-panel-applet/mate-panel-applet-factory.c
        libmate-panel-applet/mate-panel-applet-factory.h
+       libmate-panel-applet/panel-applet-private.h
        mate-panel/libmate-panel-applet-private/panel-applet-container.c
        mate-panel/libmate-panel-applet-private/panel-applet-container.h
-       mate-panel/libmate-panel-applet/panel-applet-private.h
 Copyright: 2010, Carlos Garcia Campos <carlosgc@gnome.org>
 License: LGPL-2+
 
