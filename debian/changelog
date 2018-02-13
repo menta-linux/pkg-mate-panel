@@ -1,3 +1,29 @@
+mate-panel (1.20.0-1) unstable; urgency=medium
+
+  [ Martin Wimpress ]
+  * debian/copyright (already in 1.19.5-0ubuntu1):
+    + Update copyright attributions.
+  * debian/patches (in 1.19.5.0ubuntu1):
+    + Drop 0001_no_scale.patch. Applied upstream.
+    + Drop 1000_prevent_menubar_destruction_when_enabling_global_menus.patch.
+      Applied upstream.
+    + Add 0000_hidpi.patch. HiDPI support.
+  * debian/patches (in 1.19.6-0ubuntu1):
+    + Add 0001_down_scale_out_process_applet.patch. Divide the preferred
+      width/height by the scale factor to ensure out-process applets are
+      scaled correctly.
+  * debian/patches (in 1.20.0-0ubuntu1):
+    + Drop 0000_hidpi.patch. Applied upstream.
+    + Drop 0001_down_scale_out_process_applet.patch. Applied upstream.
+
+  [ Mike Gabriel ]
+  * Starting with MATE 1.20, mate-panel uses ~/.config/gtk-3.0/bookmarks.
+    (Closes: #760311).
+  * debian/libmate-panel-applet-4-1.symbols:
+    + Update symbols file.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 13 Feb 2018 16:38:42 +0100
+
 mate-panel (1.20.0-0ubuntu1) bionic; urgency=medium
 
   * New upstream release.
