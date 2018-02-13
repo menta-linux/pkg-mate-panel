@@ -1,16 +1,16 @@
-mate-panel (1.20.0-1) UNRELEASED; urgency=medium
+mate-panel (1.20.0-0ubuntu1) bionic; urgency=medium
 
   * New upstream release.
 
  -- Martin Wimpress <martin.wimpress@ubuntu.com>  Wed, 07 Feb 2018 14:03:56 +0000
 
-mate-panel (1.19.6-1) UNRELEASED; urgency=medium
+mate-panel (1.19.6-0ubuntu1) bionic; urgency=medium
 
   * New upstream release.
 
  -- Martin Wimpress <martin.wimpress@ubuntu.com>  Fri, 26 Jan 2018 16:23:13 +0000
 
-mate-panel (1.19.5-1) UNRELEASED; urgency=medium
+mate-panel (1.19.5-0ubuntu1) bionic; urgency=medium
 
   * New upstream release.
 
@@ -151,7 +151,7 @@ mate-panel (1.16.0-1) unstable; urgency=medium
 
   [ Vangelis Mouhtsis ]
   * debian/changelog:
-    + Fix missing changelog items for 1.15.1-1 upload.
+    + Fix missing changelog items for 1.15.1-0ubuntu1 upload.
   * debian/control:
     + Dependencies updated for MATE 1.16.
   * debian/watch:
@@ -159,7 +159,7 @@ mate-panel (1.16.0-1) unstable; urgency=medium
 
  -- Mike Gabriel <sunweaver@debian.org>  Sun, 02 Oct 2016 22:27:36 +0200
 
-mate-panel (1.15.1-1) yakkety; urgency=medium
+mate-panel (1.15.1-0ubuntu1) yakkety; urgency=medium
 
   * New upstream development release. (Closes: #836301, #836994).
   * debian/control:
