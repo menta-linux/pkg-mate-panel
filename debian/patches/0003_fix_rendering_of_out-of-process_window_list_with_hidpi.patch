@@ -23,3 +23,22 @@ index c7810588..b4c7d123 100644
  	gtk_widget_show(tasklist->applet);
  
  	return TRUE;
+diff --git a/applets/wncklet/workspace-switcher.c b/applets/wncklet/workspace-switcher.c
+index df7add93..37c2fb07 100644
+--- a/applets/wncklet/workspace-switcher.c
++++ b/applets/wncklet/workspace-switcher.c
+@@ -526,13 +526,13 @@ gboolean workspace_switcher_applet_fill(MatePanelApplet* applet)
+ 	g_signal_connect(G_OBJECT(pager->pager), "scroll-event", G_CALLBACK(applet_scroll), pager);
+ 
+ 	gtk_container_add(GTK_CONTAINER(pager->applet), pager->pager);
+-	gtk_widget_show(pager->pager);
+ 
+ 	g_signal_connect(G_OBJECT(pager->applet), "realize", G_CALLBACK(applet_realized), pager);
+ 	g_signal_connect(G_OBJECT(pager->applet), "unrealize", G_CALLBACK(applet_unrealized), pager);
+ 	g_signal_connect(G_OBJECT(pager->applet), "change_orient", G_CALLBACK(applet_change_orient), pager);
+ 	g_signal_connect(G_OBJECT(pager->applet), "change_background", G_CALLBACK(applet_change_background), pager);
+ 
++	gtk_widget_show(pager->pager);
+ 	gtk_widget_show(pager->applet);
+ 
+ 	mate_panel_applet_set_background_widget(MATE_PANEL_APPLET(pager->applet), GTK_WIDGET(pager->applet));
