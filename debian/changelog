@@ -1,3 +1,14 @@
+mate-panel (1.20.0-3) unstable; urgency=medium
+
+  [ Martin Wimpress ]
+  * debian/patches:
+    + Add 0003_fix_rendering_of_out-of-process_window_list_with_hidpi.patch.
+      Fix rendering of out-of-process window list with HiDPI.
+    + Add 0004_fix_tray_icon_spacing.patch. Fix tray icon spacing with
+      window-scaling > 1.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 22 Mar 2018 21:49:48 +0100
+
 mate-panel (1.20.0-2) unstable; urgency=medium
 
   [ Mike Gabriel ]
