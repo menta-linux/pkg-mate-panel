@@ -1,8 +1,21 @@
-mate-panel (1.20.1-1) UNRELEASED; urgency=medium
+mate-panel (1.20.1-1) unstable; urgency=medium
 
+  [ Martin Wimpress ]
   * New upstream release.
+  * debian/patches:
+    + Drop 0001_scale_monitor_geometries.patch. Applied upstream.
+    + Drop 0002_fix_out_process_applets_for_hidpi.patch. Applied upstream.
+    + Drop 0003_fix_rendering_of_out-of-process_window_list_with_hidpi.patch.
+      Applied upstream.
+    + Drop 0004_fix_tray_icon_spacing.patch. Applied upstream.
 
- -- Martin Wimpress <martin.wimpress@ubuntu.com>  Mon, 26 Mar 2018 19:37:59 +0100
+  [ Mike Gabriel ]
+  * debian/copyright:
+    + Update copyright attributions.
+  * debian/source/lintian-overrides:
+    + Move to new/correct location.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 05 Apr 2018 13:38:16 +0200
 
 mate-panel (1.20.0-3) unstable; urgency=medium
 
