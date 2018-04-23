@@ -1,0 +1,15 @@
+Author: Wolfgang Ulbrich <mate@raveit.de>
+Description: Fix regression in mate-panel where the panel will auto hide when the menu is opened.
+
+diff --git a/mate-panel/panel-toplevel.c b/mate-panel/panel-toplevel.c
+index 25daa697..e9d9fe48 100644
+--- a/mate-panel/panel-toplevel.c
++++ b/mate-panel/panel-toplevel.c
+@@ -3805,6 +3805,7 @@ panel_toplevel_queue_auto_hide (PanelToplevel *toplevel)
+ 	g_return_if_fail (PANEL_IS_TOPLEVEL (toplevel));
+ 
+ 	if (!toplevel->priv->auto_hide ||
++	    panel_toplevel_contains_pointer (toplevel) ||
+ 	    panel_toplevel_get_autohide_disabled (toplevel))
+ 	  return;
+ 
