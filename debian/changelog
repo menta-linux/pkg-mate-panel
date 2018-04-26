@@ -1,3 +1,12 @@
+mate-panel (1.20.1-3) unstable; urgency=medium
+
+  [ Martin Wimpress ]
+  * debian/patches:
+    + Add 0002_limit_panel_hide_button_size.patch. Constrain the size of the
+      hide buttons on the panel.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 26 Apr 2018 22:57:27 +0200
+
 mate-panel (1.20.1-2) unstable; urgency=medium
 
   [ Martin Wimpress ]
