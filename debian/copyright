@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: MATE Panel
-Upstream-Contact: Stefano Karapetsas <stefano@karapetsas.com>
+Upstream-Contact: Martin Wimpress <martin@mate-desktop.org>
 Source: http://git.mate-desktop.org/mate-panel
 
 Files: applets/wncklet/wncklet.c
