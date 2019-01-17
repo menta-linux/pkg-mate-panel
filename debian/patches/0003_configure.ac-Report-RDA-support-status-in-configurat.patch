@@ -1,0 +1,25 @@
+From 191f9703a723520954f55de551b70b5849a62c74 Mon Sep 17 00:00:00 2001
+From: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
+Date: Thu, 28 Jun 2018 15:39:47 +0200
+Subject: [PATCH 3/3] configure.ac: Report RDA support status in configuration
+ summary.
+
+---
+ configure.ac | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configure.ac b/configure.ac
+index 2c544ed..276a832 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -337,6 +337,7 @@ echo "
+         Use *_DISABLE_DEPRECATED:      ${enable_deprecation_flags}
+         Applets to build in-process:   ${PANEL_INPROCESS_APPLETS}
+         XRandr support:                ${have_randr}
++        RDA support:                   ${have_rda}
+         Build introspection support:   ${found_introspection}
+         Build gtk-doc documentation:   ${enable_gtk_doc}
+ 
+-- 
+2.11.0
+
