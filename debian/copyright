@@ -600,6 +600,8 @@ Comment:
  Assume license as found either in COPYING or in COPYING.LIB file.
 
 Files: mate-panel.pot
+       mate-clock.pot
+       mate-fish.pot
        po/*.po
        po/gnome-copyrights.txt
 Copyright: THE PACKAGE'S COPYRIGHT HOLDER
