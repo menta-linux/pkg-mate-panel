@@ -1,3 +1,25 @@
+mate-panel (1.20.4-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Transfer focus on alt-F1 correctly. (Closes: #909176).
+  * debian/patches:
+    + Add 0001_RDA-support-Make-MATE-panel-aware-of-being-run-insid.patch,
+          0002_mate-panel-panel-menu-items.c-Only-offer-Shutdown-bu.patch,
+          0003_configure.ac-Report-RDA-support-status-in-configurat.patch.
+      Introduce RDA (remote desktop awareness).
+  * debian/control:
+    + Bump Standards-Version: to 4.3.0. No changes needed.
+    + Add B-D librda-dev.
+  * debian/libmate-panel-applet-4-1.symbols:
+    + Add Build-Depends-Package meta data field.
+  * debian/compat:
+    + Drop file. Use new debhelper-compat notation in control file (and bump
+      to DH compat level version 12).
+  * debian/copyright:
+    + Update copyright attributions
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 06 Jan 2019 17:10:27 +0100
+
 mate-panel (1.20.3-1) unstable; urgency=medium
 
   * New upstream release.
