@@ -124,9 +124,7 @@ License: GPL-2+
 Comment:
  Assuming license as found in COPYING file.
 
-Files: applets/notification_area/na-box.c
-       applets/notification_area/na-box.h
-       applets/notification_area/na-host.c
+Files: applets/notification_area/na-host.c
        applets/notification_area/na-host.h
        applets/notification_area/na-item.c
        applets/notification_area/na-item.h
@@ -197,12 +195,6 @@ License: GPL-2+
 Files: mate-panel/panel-multiscreen.c
        mate-panel/panel-multiscreen.h
 Copyright: 2001, George Lebl <jirka@5z.com>
-License: GPL-2+
-
-Files: mate-panel/libpanel-util/panel-dbus-service.c
-       mate-panel/libpanel-util/panel-dbus-service.h
-Copyright: 2006, Ray Strode <rstrode@redhat.com>
-           2008, Novell, Inc.
 License: GPL-2+
 
 Files: mate-panel/libpanel-util/panel-gtk.c
@@ -504,6 +496,9 @@ Files: .tx/config
        applets/fish/fish.gresource.xml
        applets/fish/fish.ui
        applets/fish/org.mate.panel.*.in
+       applets/notification_area/na-grid.c
+       applets/notification_area/na-grid.h
+       applets/notification_area/notification-area-preferences-dialog.ui
        applets/notification_area/Makefile.am
        applets/notification_area/system-tray/Makefile.am
        applets/notification_area/system-tray/na-marshal.*
@@ -581,6 +576,9 @@ Files: .tx/config
        mate-panel/libmate-panel-applet-private/Makefile.am
        mate-panel/libmate-panel-applet-private/panel-applet-mini.c
        mate-panel/panel-test-applets.gresource.xml
+       mate-panel/wayland-protocols/Makefile.am
+       mate-panel/wayland-protocols/wlr-layer-shell-unstable-v1.xml
+       mate-panel/wayland-protocols/xdg-shell.xml
        po/LINGUAS
        po/POTFILES.*
        autogen.sh
