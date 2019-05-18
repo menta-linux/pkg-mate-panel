@@ -1,0 +1,168 @@
+Author: Vlad Orlov
+Description: FIx random panel crashes on reset.
+
+diff --git a/mate-panel/panel-profile.c b/mate-panel/panel-profile.c
+index 15cf114e..7d787755 100644
+--- a/mate-panel/panel-profile.c
++++ b/mate-panel/panel-profile.c
+@@ -1029,16 +1029,6 @@ panel_profile_delete_toplevel (PanelToplevel *toplevel)
+ 
+ 	toplevel_id = panel_profile_get_toplevel_id (toplevel);
+ 
+-	/* disable GSettings signals */
+-	if (toplevel->settings) {
+-		g_object_unref (toplevel->settings);
+-		toplevel->settings = NULL;
+-	}
+-	if (toplevel->background_settings) {
+-		g_object_unref (toplevel->background_settings);
+-		toplevel->background_settings = NULL;
+-	}
+-
+ 	panel_profile_delete_toplevel_objects (toplevel_id);
+ 
+ 	panel_profile_remove_from_list (PANEL_GSETTINGS_TOPLEVELS, toplevel_id);
+@@ -1445,6 +1435,18 @@ panel_profile_delete_removed_ids (PanelGSettingsKeyType    type,
+ 	g_slist_free (removed_ids);
+ }
+ 
++static gboolean
++load_default_layout_idle (gpointer unused) {
++	if (g_slist_length (panel_toplevel_list_toplevels ()) != 0) {
++		/* some toplevels are not destroyed yet, waiting */
++		return TRUE;
++	}
++
++	/* load the default layout and stop this handler */
++	panel_profile_ensure_toplevel_per_screen ();
++	return FALSE;
++}
++
+ static void
+ panel_profile_toplevel_id_list_notify (GSettings *settings,
+ 									   gchar *key,
+@@ -1487,7 +1489,7 @@ panel_profile_toplevel_id_list_notify (GSettings *settings,
+ 
+ 	/* if there are no panels, reset layout to default */
+ 	if (g_slist_length (toplevel_ids) == 0)
+-		panel_profile_ensure_toplevel_per_screen ();
++		g_idle_add (load_default_layout_idle, NULL);
+ 
+ 	g_slist_free (existing_toplevels);
+ 	g_slist_free (toplevel_ids);
+diff --git a/mate-panel/panel-toplevel.c b/mate-panel/panel-toplevel.c
+index ab203a66..5d43870e 100644
+--- a/mate-panel/panel-toplevel.c
++++ b/mate-panel/panel-toplevel.c
+@@ -246,6 +246,8 @@ static void panel_toplevel_calculate_animation_end_geometry(PanelToplevel *tople
+ static void panel_toplevel_update_monitor(PanelToplevel* toplevel);
+ static void panel_toplevel_set_monitor_internal(PanelToplevel* toplevel, int monitor, gboolean force_resize);
+ 
++static void panel_toplevel_drag_threshold_changed (PanelToplevel *toplevel);
++
+ static void
+ update_style_classes (PanelToplevel *toplevel)
+ {
+@@ -3072,6 +3074,37 @@ panel_toplevel_dispose (GObject *widget)
+ {
+ 	PanelToplevel *toplevel = (PanelToplevel *) widget;
+ 
++	if (toplevel->priv->settings_path) {
++		g_free (toplevel->priv->settings_path);
++		toplevel->priv->settings_path = NULL;
++	}
++
++	if (toplevel->settings) {
++		g_signal_handlers_disconnect_by_data (toplevel->settings, toplevel);
++		g_object_unref (toplevel->settings);
++		toplevel->settings = NULL;
++	}
++
++	if (toplevel->queued_settings) {
++		g_object_unref (toplevel->queued_settings);
++		toplevel->queued_settings = NULL;
++	}
++
++	if (toplevel->background_settings) {
++		g_signal_handlers_disconnect_by_data (toplevel->background_settings, toplevel);
++		g_object_unref (toplevel->background_settings);
++		toplevel->background_settings = NULL;
++	}
++
++	if (toplevel->priv->gtk_settings) {
++		g_signal_handlers_disconnect_by_func (toplevel->priv->gtk_settings,
++						      G_CALLBACK (panel_toplevel_drag_threshold_changed),
++						      toplevel);
++		toplevel->priv->gtk_settings = NULL;
++
++		panel_background_free (&toplevel->background);
++	}
++
+ 	if (toplevel->priv->attached) {
+ 		panel_toplevel_disconnect_attached (toplevel);
+ 		toplevel->priv->attached = FALSE;
+@@ -3080,6 +3113,16 @@ panel_toplevel_dispose (GObject *widget)
+ 		toplevel->priv->attach_widget   = NULL;
+ 	}
+ 
++	if (toplevel->priv->description) {
++		g_free (toplevel->priv->description);
++		toplevel->priv->description = NULL;
++	}
++
++	if (toplevel->priv->name) {
++		g_free (toplevel->priv->name);
++		toplevel->priv->name = NULL;
++	}
++
+ 	panel_toplevel_disconnect_timeouts (toplevel);
+ 
+ 	G_OBJECT_CLASS (panel_toplevel_parent_class)->dispose (widget);
+@@ -4218,47 +4261,6 @@ panel_toplevel_finalize (GObject *object)
+ 
+ 	toplevel_list = g_slist_remove (toplevel_list, toplevel);
+ 
+-	if (toplevel->priv->settings_path) {
+-		g_free (toplevel->priv->settings_path);
+-		toplevel->priv->settings_path = NULL;
+-	}
+-
+-	if (toplevel->settings) {
+-		g_object_unref (toplevel->settings);
+-		toplevel->settings = NULL;
+-	}
+-
+-	if (toplevel->background_settings) {
+-		g_object_unref (toplevel->background_settings);
+-		toplevel->background_settings = NULL;
+-	}
+-
+-	if (toplevel->priv->gtk_settings) {
+-		g_signal_handlers_disconnect_by_func (toplevel->priv->gtk_settings,
+-						      G_CALLBACK (panel_toplevel_drag_threshold_changed),
+-						      toplevel);
+-		toplevel->priv->gtk_settings = NULL;
+-
+-		panel_background_free (&toplevel->background);
+-	}
+-
+-	if (toplevel->priv->attached) {
+-		panel_toplevel_disconnect_attached (toplevel);
+-
+-		toplevel->priv->attached = FALSE;
+-
+-		toplevel->priv->attach_toplevel = NULL;
+-		toplevel->priv->attach_widget   = NULL;
+-	}
+-
+-	if (toplevel->priv->description)
+-		g_free (toplevel->priv->description);
+-	toplevel->priv->description = NULL;
+-
+-	if (toplevel->priv->name)
+-		g_free (toplevel->priv->name);
+-	toplevel->priv->name = NULL;
+-
+ 	G_OBJECT_CLASS (panel_toplevel_parent_class)->finalize (object);
+ }
+ 
