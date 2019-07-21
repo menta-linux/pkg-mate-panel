@@ -1,8 +1,19 @@
-mate-panel (1.22.1-1) UNRELEASED; urgency=medium
+mate-panel (1.22.1-1) unstable; urgency=medium
 
+  [ Martin Wimpress ]
   * New upstream release.
+  * debian/copyright:
+    + Update copyright attributions.
+  * debian/patches:
+    + Add 0005_fix_panel_resets.patch. Fix random panel crashes on reset.
 
- -- Martin Wimpress <martin.wimpress@ubuntu.com>  Mon, 18 Mar 2019 20:30:22 +0000
+  [ Mike Gabriel ]
+  * debian/control:
+    + Bump Standards-Version: to 4.4.0. No changes needed.
+  * debian/rules:
+    + Drop dbgsym-migration dh_strip override.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 21 Jul 2019 18:29:14 +0200
 
 mate-panel (1.20.5-1) unstable; urgency=medium
 
