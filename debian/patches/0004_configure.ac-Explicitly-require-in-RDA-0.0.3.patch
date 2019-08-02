@@ -7,11 +7,9 @@ Subject: [PATCH] configure.ac: Explicitly require in RDA >= 0.0.3.
  configure.ac | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/configure.ac b/configure.ac
-index a41a93c..cbdc149 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -66,6 +66,7 @@ LIBRSVG_REQUIRED=2.36.2
+@@ -65,6 +65,7 @@
  GTK_REQUIRED=3.22.0
  LIBWNCK_REQUIRED=3.4.6
  WEATHER_REQUIRED=1.17.0
@@ -19,7 +17,7 @@ index a41a93c..cbdc149 100644
  
  dnl pkg-config dependency checks
  
-@@ -204,7 +205,7 @@ fi
+@@ -235,7 +236,7 @@
  
  dnl Remote Desktop Awareness
  
@@ -28,6 +26,3 @@ index a41a93c..cbdc149 100644
  if test "x$have_rda" = "xyes"; then
    AC_DEFINE(HAVE_RDA, 1, [Have the Remote Desktop Awareness library])
  fi
--- 
-2.11.0
-

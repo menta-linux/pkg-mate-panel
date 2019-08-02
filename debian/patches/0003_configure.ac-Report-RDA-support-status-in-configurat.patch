@@ -8,11 +8,9 @@ Subject: [PATCH] configure.ac: Report RDA support status in configuration
  configure.ac | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/configure.ac b/configure.ac
-index c6c61c3b..5b0ba29f 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -372,6 +372,7 @@ echo "
+@@ -371,6 +371,7 @@
          Wayland support:               ${have_wayland}
          X11 support:                   ${have_x11}
          XRandr support:                ${have_randr}
