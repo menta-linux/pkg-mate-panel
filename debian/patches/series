@@ -3,3 +3,4 @@
 0003_configure.ac-Report-RDA-support-status-in-configurat.patch
 0004_configure.ac-Explicitly-require-in-RDA-0.0.3.patch
 0005_fix_panel_resets.patch
+0006_Fix-panel-applet-keyboard-focus-trap.patch
