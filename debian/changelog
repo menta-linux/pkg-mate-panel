@@ -1,3 +1,9 @@
+mate-panel (1.22.2-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+
+ -- Martin Wimpress <martin.wimpress@ubuntu.com>  Sat, 21 Sep 2019 23:32:17 +0200
+
 mate-panel (1.22.1-2) unstable; urgency=medium
 
   * debian/patches:
