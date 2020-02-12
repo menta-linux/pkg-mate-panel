@@ -192,9 +192,14 @@ Copyright: 2000, Helix Code, Inc.
            2003, Sun Microsystems, Inc.
 License: GPL-2+
 
-Files: mate-panel/panel-multiscreen.c
-       mate-panel/panel-multiscreen.h
+Files: mate-panel/panel-multimonitor.c
+       mate-panel/panel-multimonitor.h
 Copyright: 2001, George Lebl <jirka@5z.com>
+License: GPL-2+
+
+Files: mate-panel/wayland-backend.c
+       mate-panel/wayland-backend.h
+Copyright: 2019, William Wold <wm@wmww.sh>
 License: GPL-2+
 
 Files: mate-panel/libpanel-util/panel-gtk.c
@@ -472,6 +477,7 @@ License: GFDL-1.1+
 
 Files: .travis.yml
        .tx/config
+       .github/FUNDING.yml
        .github/issue_template.md
        applets/Makefile.am
        applets/clock/Makefile.am
@@ -549,7 +555,6 @@ Files: .travis.yml
        libmate-panel-applet/*.in
        libmate-panel-applet/*.list
        libmate-panel-applet/test-dbus-applet.c
-       m4/d-type.m4
        makepot
        man/Makefile.am
        man/mate-desktop-item-edit.1
@@ -577,17 +582,12 @@ Files: .travis.yml
        mate-panel/libmate-panel-applet-private/Makefile.am
        mate-panel/libmate-panel-applet-private/panel-applet-mini.c
        mate-panel/panel-test-applets.gresource.xml
-       mate-panel/wayland-protocols/Makefile.am
-       mate-panel/wayland-protocols/wlr-layer-shell-unstable-v1.xml
-       mate-panel/wayland-protocols/xdg-shell.xml
        po/LINGUAS
+       po/Makevars
        po/POTFILES.*
        autogen.sh
        configure.ac
        AUTHORS
-       COPYING
-       COPYING-DOCS
-       COPYING.LIB
        ChangeLog
        HACKING
        NEWS
