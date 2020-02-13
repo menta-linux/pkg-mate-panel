@@ -13,11 +13,9 @@ Subject: [PATCH] RDA support: Make MATE panel aware of being run inside a
  mate-panel/panel-menu-items.c      | 25 ++++++++++++++++++++
  6 files changed, 74 insertions(+)
 
-diff --git a/configure.ac b/configure.ac
-index 8fc7572e..c6c61c3b 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -233,6 +233,13 @@ if test "x$have_randr" = "xyes"; then
+@@ -244,6 +244,13 @@
    AC_DEFINE(HAVE_RANDR, 1, [Have the Xrandr extension library])
  fi
  
@@ -31,11 +29,9 @@ index 8fc7572e..c6c61c3b 100644
  dnl Modules dir
  AC_SUBST([modulesdir],"\$(libdir)/mate-panel/modules")
  
-diff --git a/mate-panel/Makefile.am b/mate-panel/Makefile.am
-index c37bbd71..86087dff 100644
 --- a/mate-panel/Makefile.am
 +++ b/mate-panel/Makefile.am
-@@ -136,6 +136,7 @@ mate_panel_SOURCES = \
+@@ -143,6 +143,7 @@
  mate_panel_CPPFLAGS = \
  	$(AM_CPPFLAGS) \
  	$(XRANDR_CFLAGS) \
@@ -43,16 +39,14 @@ index c37bbd71..86087dff 100644
  	-DPANEL_MODULES_DIR=\"$(modulesdir)\" \
  	-DMATEMENU_I_KNOW_THIS_IS_UNSTABLE
  
-@@ -153,6 +154,7 @@ mate_panel_LDADD = \
+@@ -159,6 +160,7 @@
+ 	$(PANEL_LIBS) \
  	$(DCONF_LIBS) \
  	$(XRANDR_LIBS) \
- 	$(X_LIBS) \
 +	$(RDA_LIBS) \
+ 	$(X_LIBS) \
+ 	$(GTK_LAYER_SHELL_LIBS) \
  	-lm
- 
- if ENABLE_WAYLAND
-diff --git a/mate-panel/panel-action-button.c b/mate-panel/panel-action-button.c
-index e0612b21..bebfc61f 100644
 --- a/mate-panel/panel-action-button.c
 +++ b/mate-panel/panel-action-button.c
 @@ -33,6 +33,10 @@
@@ -66,7 +60,7 @@ index e0612b21..bebfc61f 100644
  #define MATE_DESKTOP_USE_UNSTABLE_API
  #include <libmate-desktop/mate-desktop-utils.h>
  #include <libmate-desktop/mate-gsettings.h>
-@@ -96,6 +100,9 @@ static ObsoleteEnumStringPair panel_action_type_map [] = {
+@@ -98,6 +102,9 @@
  	{ PANEL_ACTION_FORCE_QUIT,     "force-quit"     },
  	{ PANEL_ACTION_CONNECT_SERVER, "connect-server" },
  	{ PANEL_ACTION_SHUTDOWN,       "shutdown"       },
@@ -76,7 +70,7 @@ index e0612b21..bebfc61f 100644
  	{ 0,                           NULL             },
  };
  
-@@ -232,6 +239,24 @@ panel_action_logout (GtkWidget *widget)
+@@ -234,6 +241,24 @@
  						      PANEL_SESSION_MANAGER_LOGOUT_MODE_NORMAL);
  }
  
@@ -101,7 +95,7 @@ index e0612b21..bebfc61f 100644
  static void
  panel_action_shutdown (GtkWidget *widget)
  {
-@@ -412,6 +437,19 @@ static PanelAction actions [] = {
+@@ -430,6 +455,19 @@
  		panel_action_shutdown, NULL, NULL,
  		panel_action_shutdown_reboot_is_disabled
  	}
@@ -121,11 +115,9 @@ index e0612b21..bebfc61f 100644
  };
  
  gboolean
-diff --git a/mate-panel/panel-enums-gsettings.h b/mate-panel/panel-enums-gsettings.h
-index 3f9a7562..da2bceff 100644
 --- a/mate-panel/panel-enums-gsettings.h
 +++ b/mate-panel/panel-enums-gsettings.h
-@@ -68,6 +68,7 @@ typedef enum {
+@@ -68,6 +68,7 @@
  	PANEL_ACTION_FORCE_QUIT,
  	PANEL_ACTION_CONNECT_SERVER,
  	PANEL_ACTION_SHUTDOWN,
@@ -133,8 +125,6 @@ index 3f9a7562..da2bceff 100644
  	PANEL_ACTION_LAST
  } PanelActionButtonType;
  
-diff --git a/mate-panel/panel-icon-names.h b/mate-panel/panel-icon-names.h
-index 4c948b76..c887a345 100644
 --- a/mate-panel/panel-icon-names.h
 +++ b/mate-panel/panel-icon-names.h
 @@ -33,6 +33,7 @@
@@ -145,8 +135,6 @@ index 4c948b76..c887a345 100644
  #define PANEL_ICON_THEME		"preferences-desktop-theme"
  #define PANEL_ICON_TRASH		"user-trash"
  #define PANEL_ICON_UNKNOWN		"image-missing"
-diff --git a/mate-panel/panel-menu-items.c b/mate-panel/panel-menu-items.c
-index 6ea12c20..cc73c7fc 100644
 --- a/mate-panel/panel-menu-items.c
 +++ b/mate-panel/panel-menu-items.c
 @@ -39,6 +39,9 @@
@@ -159,7 +147,7 @@ index 6ea12c20..cc73c7fc 100644
  #include <libmate-desktop/mate-gsettings.h>
  
  #include <libpanel-util/panel-error.h>
-@@ -1582,6 +1585,28 @@ panel_menu_items_append_lock_logout (GtkWidget *menu)
+@@ -1573,6 +1576,28 @@
  	}
  	g_list_free (children);
  
