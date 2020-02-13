@@ -1,17 +1,27 @@
-mate-panel (1.24.0-1) UNRELEASED; urgency=medium
+mate-panel (1.24.0-1) unstable; urgency=medium
 
   [ Mike Gabriel ]
   * debian/control:
     + Add Rules-Requires-Root: field and set it to no.
     + Bump Standards-Version: to 4.5.0. No changes needed.
+    + Versioned B-D on libgtk-layer-shell-dev (>= 0.1.0-3~); earlier versions
+      had no dependency on the shared lib bin:pkg.
   * debian/upstream/metadata:
     + Drop obsolete fields Contact: and Name:.
     + Append .git suffix to URLs in Repository: field.
+  * debian/patches:
+    + Rebase RDA patches.
 
   [ Martin Wimpress ]
   * New upstream release.
+  * debian/copyright:
+    + Update copyright attributions.
+  * debian/control:
+    + Add B-D libgtk-layer-shell-dev.
+    + Update Build-Depends: to support MATE Desktop 1.24.
+    + Add B-D autoconf-archive.
 
- -- Martin Wimpress <martin.wimpress@ubuntu.com>  Wed, 12 Feb 2020 21:08:15 +0000
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 13 Feb 2020 13:13:15 +0100
 
 mate-panel (1.22.2-1) unstable; urgency=medium
 
