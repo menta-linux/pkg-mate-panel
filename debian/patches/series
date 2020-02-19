@@ -2,3 +2,4 @@
 0002_mate-panel-panel-menu-items.c-Only-offer-Shutdown-bu.patch
 0003_configure.ac-Report-RDA-support-status-in-configurat.patch
 0004_configure.ac-Explicitly-require-in-RDA-0.0.3.patch
+0005-enable-apps-in-addto-menu.patch
