@@ -1,3 +1,17 @@
+mate-panel (1.24.0-2) unstable; urgency=medium
+
+  [ Mike Gabriel ]
+  * debian/control:
+    + Limit GTK layer shell / Wayland support to linux-any architectures.
+      (Closes: #951541).
+
+  [ Martin Wimpress ]
+  * debian/patches:
+    + Add 0005-enable-apps-in-addto-menu.patch. Fix adding application
+      launchers to MATE Panel. (LP: #1863435).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 20 Feb 2020 07:48:58 +0100
+
 mate-panel (1.24.0-1) unstable; urgency=medium
 
   [ Mike Gabriel ]
