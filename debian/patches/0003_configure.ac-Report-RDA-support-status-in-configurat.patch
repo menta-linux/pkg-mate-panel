@@ -10,7 +10,7 @@ Subject: [PATCH] configure.ac: Report RDA support status in configuration
 
 --- a/configure.ac
 +++ b/configure.ac
-@@ -384,6 +384,7 @@
+@@ -387,6 +387,7 @@
          Wayland support:               ${have_wayland}
          X11 support:                   ${have_x11}
          XRandr support:                ${have_randr}

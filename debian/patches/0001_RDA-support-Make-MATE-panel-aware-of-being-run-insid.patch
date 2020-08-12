@@ -147,7 +147,7 @@ Subject: [PATCH] RDA support: Make MATE panel aware of being run inside a
  #include <libmate-desktop/mate-gsettings.h>
  
  #include <libpanel-util/panel-error.h>
-@@ -1573,6 +1576,28 @@
+@@ -1575,6 +1578,28 @@
  	}
  	g_list_free (children);
  
