@@ -1,3 +1,10 @@
+mate-panel (1.24.1-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+    - Memory leak fixes. (Closes: #966292, #951436).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 12 Aug 2020 21:27:05 +0200
+
 mate-panel (1.24.0-2) unstable; urgency=medium
 
   [ Mike Gabriel ]
