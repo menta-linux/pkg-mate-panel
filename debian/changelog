@@ -1,9 +1,16 @@
-mate-panel (1.24.1-1) UNRELEASED; urgency=medium
+mate-panel (1.24.1-1) unstable; urgency=medium
 
   * New upstream release.
     - Memory leak fixes. (Closes: #966292, #951436).
+  * debian/patches:
+    + Rebase patches.
+    + Drop 0005-enable-apps-in-addto-menu.patch. Applied upstream.
+  * debian/copyright:
+    + Update copyright attributions.
+  * debian/control:
+    + Bump DH compat level to version 13.
 
- -- Mike Gabriel <sunweaver@debian.org>  Wed, 12 Aug 2020 21:27:05 +0200
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 12 Aug 2020 21:41:34 +0200
 
 mate-panel (1.24.0-2) unstable; urgency=medium
 
