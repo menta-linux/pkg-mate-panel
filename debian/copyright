@@ -475,7 +475,8 @@ Copyright: Amanpreet Singh Brar Alamwalia <apbrar@gmail.com>
            Максим Дзюманенко <dziumanenko@gmail.com>
 License: GFDL-1.1+
 
-Files: .travis.yml
+Files: .build.yml
+       .travis.yml
        .tx/config
        .github/FUNDING.yml
        .github/issue_template.md
@@ -542,12 +543,15 @@ Files: .travis.yml
        icons/22x22/*.xcf.bz2
        icons/24x24/Makefile.am
        icons/24x24/*.png
+       icons/256x256/Makefile.am
        icons/32x32/Makefile.am
        icons/32x32/*.png
        icons/32x32/*.svg
        icons/48x48/Makefile.am
        icons/48x48/*.png
        icons/48x48/*.svg
+       icons/64x64/Makefile.am
+       icons/96x96/Makefile.am
        icons/scalable/Makefile.am
        icons/scalable/*.svg
        libmate-panel-applet/TODO
