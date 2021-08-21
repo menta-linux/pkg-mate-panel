@@ -1,8 +1,9 @@
-mate-panel (1.24.2-1) UNRELEASED; urgency=medium
+mate-panel (1.26.0-1) UNRELEASED; urgency=medium
 
   * New upstream maintenance release.
+  * New upstream release.
 
- -- Martin Wimpress <martin.wimpress@ubuntu.com>  Sat, 27 Mar 2021 10:48:22 +0000
+ -- Martin Wimpress <code@wimpress.io>  Sat, 21 Aug 2021 18:01:56 +0100
 
 mate-panel (1.24.1-1) unstable; urgency=medium
 
