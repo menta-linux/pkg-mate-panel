@@ -36,6 +36,7 @@ Build-Depends: autoconf-archive,
                libxrandr-dev,
                lsb-release,
                mate-common (>= 1.18),
+               mate-submodules-source (>= 0.0~git20210623.f3091f9),
                yelp-tools,
 Standards-Version: 4.6.0
 Rules-Requires-Root: no
