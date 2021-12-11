@@ -14,6 +14,8 @@ override_dh_missing:
 
 override_dh_install:
 	rm -f debian/tmp/usr/lib/*/*.la
+	mkdir -p debian/tmp/usr/share/doc/libmate-panel-applet-doc/
+	mv debian/tmp/usr/share/gtk-doc/html/mate-panel-applet debian/tmp/usr/share/doc/libmate-panel-applet-doc/html
 	dh_install
 
 override_dh_installchangelogs:
