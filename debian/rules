@@ -20,6 +20,8 @@ override_dh_installchangelogs:
 	dh_installchangelogs NEWS
 
 override_dh_auto_configure:
+	# we need libegg from mate-submodules
+	cd mate-panel/mate-submodules/; tar xvJf /usr/src/mate-submodules-source.tar.xz
 	# upstream tarball is without configure. autogen.sh will create it
 	NOCONFIGURE=1 ./autogen.sh
 	dh_auto_configure $(DHFLAGS) -- \
