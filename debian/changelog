@@ -1,9 +1,26 @@
-mate-panel (1.26.0-1) UNRELEASED; urgency=medium
+mate-panel (1.26.1-1) unstable; urgency=medium
 
-  * New upstream maintenance release.
+  [ Martin Wimpress ]
   * New upstream release.
 
- -- Martin Wimpress <code@wimpress.io>  Sat, 21 Aug 2021 18:01:56 +0100
+  [ Mike Gabriel ]
+  * debian/control:
+    + Add B-D: mate-submodules-source (>= 0.0~git20210623.f3091f9).
+    + Drop transitional pkg 'gir1.2-mate-panel' and drop lintian override for
+      it.
+    + Bump Standards-Version: to 4.6.0. No changes needed.
+  * debian/rules:
+    + Unpack libegg (mate-submodules) at the beginning of dh_auto_configure.
+  * debian/watch:
+    + Use format version 4.
+  * debian/copyright:
+    + Update copyright attributions.
+  * debian/{rules,libmate-panel-doc.*}:
+    + Move GTK API documentation to pkg's doc folder.
+  * debian/libmate-panel-doc.doc-base:
+    + Add file. Register API docs with doc-base system.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sat, 11 Dec 2021 18:58:06 +0100
 
 mate-panel (1.24.1-1) unstable; urgency=medium
 
