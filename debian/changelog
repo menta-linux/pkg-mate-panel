@@ -1,3 +1,10 @@
+mate-panel (1.26.1-2) unstable; urgency=medium
+
+  [ Pino Toscano ]
+  * Drop menu-xdg dependency from mate-panel. (Closes: #995967).
+
+ -- Mike Gabriel <mike.gabriel@das-netzwerkteam.de>  Tue, 14 Dec 2021 13:43:24 +0100
+
 mate-panel (1.26.1-1) unstable; urgency=medium
 
   [ Martin Wimpress ]
