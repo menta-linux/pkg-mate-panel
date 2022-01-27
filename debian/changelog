@@ -1,8 +1,12 @@
-mate-panel (1.26.2-1) UNRELEASED; urgency=medium
+mate-panel (1.26.2-1) unstable; urgency=medium
 
+  [ Martin Wimpress ]
   * New upstream release.
+    - Fix several memleaks. (Closes: #982919).
+    - wncklet: The values stored in the wrapper hash table are incorrect.
+      (Closes: #1003698).
 
- -- Martin Wimpress <code@wimpress.io>  Wed, 26 Jan 2022 20:11:17 +0000
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 27 Jan 2022 11:56:26 +0100
 
 mate-panel (1.26.1-2) unstable; urgency=medium
 
