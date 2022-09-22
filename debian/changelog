@@ -1,3 +1,16 @@
+mate-panel (1.27.0-1) UNRELEASED; urgency=medium
+
+  * New upstream snapshot.
+  * debian/patches:
+    + Add 0005_do-not-exceed-workspace-number.patch
+    + Add 0006_only-register-SNI-host-if-SNI-is-enabled.patch (LP: #1766749)
+    + Add 0007_fix-thumbnailing-crash.patch
+    + Add 0008_fix-leak-in-no-background.patch
+    + Add 0010_add-centre-stick.patch
+    + Add 0011_fix-centre-stick.patch
+
+ -- Martin Wimpress <code@wimpress.io>  Wed, 21 Sep 2022 13:11:25 +0100
+
 mate-panel (1.26.2-1) unstable; urgency=medium
 
   [ Martin Wimpress ]
