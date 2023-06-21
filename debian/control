@@ -38,7 +38,7 @@ Build-Depends: autoconf-archive,
                mate-common (>= 1.18),
                mate-submodules-source (>= 0.0~git20210623.f3091f9),
                yelp-tools,
-Standards-Version: 4.6.0
+Standards-Version: 4.6.2
 Rules-Requires-Root: no
 Homepage: http://www.mate-desktop.org/
 Vcs-Browser: https://salsa.debian.org/debian-mate-team/mate-panel
