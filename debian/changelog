@@ -1,8 +1,21 @@
-mate-panel (1.27.1-1) UNRELEASED; urgency=medium
+mate-panel (1.27.1-1) unstable; urgency=medium
 
   * New upstream release.
+  * debian/patches:
+    + Rename and update RDA patches. Drop all other patches (applied upstream).
+    + Cherry-pick latest changes from Git development branch (0001 - 0006).
+    + Amend typo in patch header of patch 0004."
+  * debian/control:
+    + Bump Standards-Version: to 4.6.2. No changes needed.
+  * debian/copyright:
+    + Update copyright attribution for debian/ folder.
+    + Update copyright attributions.
+  * debian/rules:
+    + Set libexecdir to /usr/libexec/mate-panel.
+  * debian/mate-panel.install:
+    + Adjust to changed libexecdir.
 
- -- Mike Gabriel <sunweaver@debian.org>  Wed, 21 Jun 2023 09:04:09 +0200
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 21 Jun 2023 09:05:45 +0200
 
 mate-panel (1.27.0-1) unstable; urgency=medium
 
