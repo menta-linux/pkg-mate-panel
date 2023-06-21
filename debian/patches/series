@@ -1,10 +1,6 @@
-0001_RDA-support-Make-MATE-panel-aware-of-being-run-insid.patch
-0002_mate-panel-panel-menu-items.c-Only-offer-Shutdown-bu.patch
-0003_configure.ac-Report-RDA-support-status-in-configurat.patch
-0004_configure.ac-Explicitly-require-in-RDA-0.0.3.patch
-0005_do-not-exceed-workspace-number.patch
-0006_only-register-SNI-host-if-SNI-is-enabled.patch
-0007_fix-thumbnailing-crash.patch
-0008_fix-leak-in-no-background.patch
-0010_add-centre-stick.patch
-0011_fix-centre-stick.patch
+0101_RDA-support-Make-MATE-panel-aware-of-being-run-insid.patch
+0102_mate-panel-panel-menu-items.c-Only-offer-Shutdown-bu.patch
+0103-configure.ac-Report-RDA-support-status-in-configurat.patch
+0104-configure.ac-Explicitly-require-in-RDA-0.0.3.patch
+0105-configure.ac-Make-RDA-enablement-controllable-via-co.patch
+0106-mate-panel-Makefile.am-Cleanup-WAYLAND_CFLAGS-and-WA.patch
