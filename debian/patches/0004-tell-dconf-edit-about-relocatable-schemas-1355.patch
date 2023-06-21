@@ -14,7 +14,7 @@ remove incorrect schemas for current path
 
 * expose mate_panel_applet_settings_new to introspection
 
-add "transfer full" annotation to make this method available throught
+add "transfer full" annotation to make this method available through
 introspection
 
 Signed-off-by: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
