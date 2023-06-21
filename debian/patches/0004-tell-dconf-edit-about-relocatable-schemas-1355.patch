@@ -1,0 +1,238 @@
+From 277418cea7b011520df9759301d416cd51709564 Mon Sep 17 00:00:00 2001
+From: Denis Gorodnichev <denis.gorodnichev@gmail.com>
+Date: Wed, 17 May 2023 06:56:21 +0300
+Subject: [PATCH 4/6] tell dconf-edit about relocatable schemas (#1355)
+
+* tell dconf-edit about relocatable schemas
+
+* self fix for incorrect and duplicated records
+
+remove duplicated schemas for currect path
+remove incorrect schemas for current path
+
+* remove clock applet hack
+
+* expose mate_panel_applet_settings_new to introspection
+
+add "transfer full" annotation to make this method available throught
+introspection
+
+Signed-off-by: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
+---
+ applets/clock/clock.c                         | 10 ---
+ .../mate-panel-applet-gsettings.c             | 82 +++++++++++++++++++
+ .../mate-panel-applet-gsettings.h             |  8 ++
+ mate-panel/panel-profile.c                    | 47 +++++++++++
+ 4 files changed, 137 insertions(+), 10 deletions(-)
+
+diff --git a/applets/clock/clock.c b/applets/clock/clock.c
+index 0ee49628..7a11f0e9 100644
+--- a/applets/clock/clock.c
++++ b/applets/clock/clock.c
+@@ -2411,18 +2411,8 @@ show_week_changed (GSettings    *settings,
+ static void
+ setup_gsettings (ClockData *cd)
+ {
+-        gint format;
+-        gchar *custom_format;
+-
+         cd->settings = mate_panel_applet_settings_new (MATE_PANEL_APPLET (cd->applet), CLOCK_SCHEMA);
+ 
+-        /* hack to allow users to set custom format in dconf-editor */
+-        format = g_settings_get_enum (cd->settings, KEY_FORMAT);
+-        custom_format = g_settings_get_string (cd->settings, KEY_CUSTOM_FORMAT);
+-        g_settings_set_enum (cd->settings, KEY_FORMAT, format);
+-        g_settings_set_string (cd->settings, KEY_CUSTOM_FORMAT, custom_format);
+-        g_free (custom_format);
+-
+         g_signal_connect (cd->settings, "changed::" KEY_FORMAT, G_CALLBACK (format_changed), cd);
+         g_signal_connect (cd->settings, "changed::" KEY_SHOW_SECONDS, G_CALLBACK (show_seconds_changed), cd);
+         g_signal_connect (cd->settings, "changed::" KEY_SHOW_DATE, G_CALLBACK (show_date_changed), cd);
+diff --git a/libmate-panel-applet/mate-panel-applet-gsettings.c b/libmate-panel-applet/mate-panel-applet-gsettings.c
+index 1c0ac744..4679dc6d 100644
+--- a/libmate-panel-applet/mate-panel-applet-gsettings.c
++++ b/libmate-panel-applet/mate-panel-applet-gsettings.c
+@@ -29,6 +29,87 @@
+ #include "mate-panel-applet.h"
+ #include "mate-panel-applet-gsettings.h"
+ 
++static GVariant *
++add_to_dict (GVariant *dict, const gchar *schema, const gchar *path)
++{
++    GVariantIter iter;
++    GVariantBuilder builder;
++    gboolean is_schema_found;
++    gboolean is_incorrect_schema;
++    gint path_counter;
++
++    gchar *key;
++    gchar *value;
++
++    g_variant_builder_init (&builder, (const GVariantType *) "a{ss}");
++    g_variant_iter_init (&iter, dict);
++
++    is_schema_found = FALSE;
++    is_incorrect_schema = FALSE;
++    path_counter = 0;
++
++    while (g_variant_iter_next (&iter, "{ss}", &key, &value)) {
++        gboolean path_is_found = FALSE;
++        if (g_strcmp0 (value, path) == 0) {
++            path_is_found = TRUE;
++            path_counter++;
++            if (g_strcmp0 (key, schema) == 0) {
++                is_schema_found = TRUE;
++            } else {
++                // skip incoorect schema for path
++                is_incorrect_schema = TRUE;
++                g_free (key);
++                g_free (value);
++                continue;
++            }
++        }
++
++        gboolean need_add_to_dict = !path_is_found || path_counter < 2;
++
++        if (need_add_to_dict) {
++            g_variant_builder_add (&builder, "{ss}", key, value);
++        }
++
++        g_free (key);
++        g_free (value);
++    }
++
++    if (!is_schema_found) {
++        g_variant_builder_add (&builder, "{ss}", schema, path);
++    }
++
++    if (!is_schema_found || is_incorrect_schema || (path_counter > 1)) {
++        return g_variant_ref_sink (g_variant_builder_end (&builder));
++    } else {
++        g_variant_builder_clear (&builder);
++        // no changes
++        return NULL;
++    }
++}
++
++static void
++register_dconf_editor_relocatable_schema (const gchar *schema, const gchar *path)
++{
++    GSettings *dconf_editor_settings;
++    dconf_editor_settings = g_settings_new ("ca.desrt.dconf-editor.Settings");
++
++    if (dconf_editor_settings && g_settings_is_writable (dconf_editor_settings, "relocatable-schemas-user-paths")) {
++        GVariant *relocatable_schemas = g_settings_get_value (dconf_editor_settings, "relocatable-schemas-user-paths");
++
++        if (g_variant_is_of_type (relocatable_schemas, G_VARIANT_TYPE_DICTIONARY)) {
++            GVariant * new_relocatable_schemas = add_to_dict (relocatable_schemas, schema, path);
++            if (new_relocatable_schemas) {
++                g_settings_set_value (dconf_editor_settings, "relocatable-schemas-user-paths", new_relocatable_schemas);
++                g_variant_unref (new_relocatable_schemas);
++            }
++        }
++
++        g_variant_unref (relocatable_schemas);
++    }
++
++    g_object_unref (dconf_editor_settings);
++}
++
+ GSettings *
+ mate_panel_applet_settings_new (MatePanelApplet *applet, gchar *schema)
+ {
+@@ -41,6 +122,7 @@ mate_panel_applet_settings_new (MatePanelApplet *applet, gchar *schema)
+ 
+     if (path) {
+         settings = g_settings_new_with_path (schema, path);
++        register_dconf_editor_relocatable_schema (schema, path);
+         g_free (path);
+     }
+ 
+diff --git a/libmate-panel-applet/mate-panel-applet-gsettings.h b/libmate-panel-applet/mate-panel-applet-gsettings.h
+index 0dbbdb01..152a73d2 100644
+--- a/libmate-panel-applet/mate-panel-applet-gsettings.h
++++ b/libmate-panel-applet/mate-panel-applet-gsettings.h
+@@ -35,7 +35,15 @@
+ 
+ G_BEGIN_DECLS
+ 
++/**
++ * mate_panel_applet_settings_new:
++ * @applet A #MatePanelApplet
++ * @schema applet's schema id
++ *
++ * Returns: (transfer full): a #GSettings. free when you used it
++ */
+ GSettings* mate_panel_applet_settings_new (MatePanelApplet *applet, gchar *schema);
++
+ GList*     mate_panel_applet_settings_get_glist (GSettings *settings, gchar *key);
+ void       mate_panel_applet_settings_set_glist (GSettings *settings, gchar *key, GList *list);
+ GSList*    mate_panel_applet_settings_get_gslist (GSettings *settings, gchar *key);
+diff --git a/mate-panel/panel-profile.c b/mate-panel/panel-profile.c
+index 05da882e..47d6d95b 100644
+--- a/mate-panel/panel-profile.c
++++ b/mate-panel/panel-profile.c
+@@ -835,6 +835,52 @@ key_from_type (PanelGSettingsKeyType type) {
+ 	return NULL;
+ }
+ 
++static GVariant *
++remove_from_dict (GVariant *dict, const gchar *path)
++{
++    GVariantIter iter;
++    GVariantBuilder builder;
++
++    gchar *key;
++    gchar *value;
++
++    g_variant_builder_init (&builder, (const GVariantType *) "a{ss}");
++    g_variant_iter_init (&iter, dict);
++
++    while (g_variant_iter_next (&iter, "{ss}", &key, &value)) {
++        if ( g_strcmp0 (value, path) != 0) {
++            g_variant_builder_add (&builder, "{ss}", key, value);
++        }
++
++        g_free (key);
++        g_free (value);
++    }
++
++    return g_variant_ref_sink (g_variant_builder_end (&builder));
++}
++
++static void
++unregister_dconf_editor_relocatable_schema (const gchar *path)
++{
++    GSettings *dconf_editor_settings;
++    dconf_editor_settings = g_settings_new ("ca.desrt.dconf-editor.Settings");
++
++    if (dconf_editor_settings && g_settings_is_writable (dconf_editor_settings, "relocatable-schemas-user-paths")) {
++        GVariant *relocatable_schemas = g_settings_get_value (dconf_editor_settings, "relocatable-schemas-user-paths");
++
++        if (g_variant_is_of_type (relocatable_schemas, G_VARIANT_TYPE_DICTIONARY)) {
++            GVariant * new_relocatable_schemas = remove_from_dict (relocatable_schemas, path);
++            g_settings_set_value (dconf_editor_settings, "relocatable-schemas-user-paths", new_relocatable_schemas);
++            g_variant_unref (new_relocatable_schemas);
++        }
++
++        g_variant_unref (relocatable_schemas);
++    }
++
++    g_object_unref (dconf_editor_settings);
++}
++
++
+ void
+ panel_profile_add_to_list (PanelGSettingsKeyType  type,
+ 						   const char        *id)
+@@ -1345,6 +1391,7 @@ panel_profile_delete_dir (PanelGSettingsKeyType  type,
+ 		gchar *subdir;
+ 		subdir = g_strdup_printf (PANEL_TOPLEVEL_PATH "%s/prefs/", id);
+ 		mate_dconf_recursive_reset (subdir, NULL);
++		unregister_dconf_editor_relocatable_schema (subdir);
+ 		g_free (subdir);
+ 	}
+ 
+-- 
+2.39.2
+

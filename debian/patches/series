@@ -1,3 +1,9 @@
+0001-panel-run-dialog-Add-accelerator-keys-for-list-of-kn.patch
+0002-applets-wncklet-wayland-backend-Add-basic-context-me.patch
+0003-applets-wncklet-wayland-backend-Add-basic-icon-suppo.patch
+0004-tell-dconf-edit-about-relocatable-schemas-1355.patch
+0005-Wayland-hidpi-do-not-scale-buttons-in-wayland-1370.patch
+0006-Wayland-Tray-applet-allow-in-process-applet-to-load-.patch
 0101_RDA-support-Make-MATE-panel-aware-of-being-run-insid.patch
 0102_mate-panel-panel-menu-items.c-Only-offer-Shutdown-bu.patch
 0103-configure.ac-Report-RDA-support-status-in-configurat.patch
