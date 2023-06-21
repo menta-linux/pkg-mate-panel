@@ -465,6 +465,7 @@ Files: .build.yml
        .gitmodules
        .travis.yml
        .tx/config
+       .tx/config_20221028214815.bak
        .github/FUNDING.yml
        .github/issue_template.md
        applets/Makefile.am
