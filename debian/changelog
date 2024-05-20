@@ -1,7 +1,8 @@
-mate-panel (1.27.1-2) unstable; urgency=medium
+mate-panel (1.27.1-3) unstable; urgency=medium
 
   * Team upload
   * Drop unused Build-Depends: libsoup2.4
+  * Use Build-Depends: dh-sequence-gir to avoid a Lintian error
 
  -- Jeremy Bícha <jbicha@ubuntu.com>  Mon, 20 May 2024 15:18:10 -0400
 
