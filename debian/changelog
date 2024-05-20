@@ -1,3 +1,10 @@
+mate-panel (1.27.1-2) unstable; urgency=medium
+
+  * Team upload
+  * Drop unused Build-Depends: libsoup2.4
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Mon, 20 May 2024 15:18:10 -0400
+
 mate-panel (1.27.1-1) unstable; urgency=medium
 
   * New upstream release.
