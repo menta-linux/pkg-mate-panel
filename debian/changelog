@@ -1,3 +1,12 @@
+mate-panel (1.27.1-4.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * d/p/fix-ftbfs-gettext.patch: Fix FTBFS due to wrong invocation of
+    msgfmt.  Thanks to Dave Vasilevsky for finding the upstream fix.
+    (Closes: #1074747)
+
+ -- Sergio Durigan Junior <sergiodj@debian.org>  Sat, 05 Apr 2025 18:25:03 -0400
+
 mate-panel (1.27.1-4) unstable; urgency=medium
 
   * debian/patches:
