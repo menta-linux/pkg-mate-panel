@@ -1,3 +1,14 @@
+mate-panel (1.27.1-5) unstable; urgency=medium
+
+  [ Simon McVittie ]
+  * d/control: Build-Depend on required GIR XML by its systematic names.
+    As diagnosed by warnings from dh_girepository during build.
+  * d/control: Add ${gir:Depends} to -dev package
+  * d/control: Add ${gir:Provides} to -dev package
+  * d/control: Replace obsolete B-D libgirepository1.0-dev (Closes: #1118897)
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 30 Aug 2026 11:07:33 +0200
+
 mate-panel (1.27.1-4.1) unstable; urgency=medium
 
   * Non-maintainer upload.
