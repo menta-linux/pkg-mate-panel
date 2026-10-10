@@ -1,3 +1,14 @@
+mate-panel (1.27.1-6) unstable; urgency=medium
+
+  * debian/patches:
+    + Add 1001-panel-background-fix-uninitialized-surface.patch. Fix crash with
+      gradient background-image in the GTK theme  panel_background_prepare()
+      passes an uninitialized pointer to  cairo_pattern_get_surface() and
+      ignores its return value. (Closes: #1150554). Thanks to Amin Fuerst for
+      submitting the patch.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sat, 10 Oct 2026 21:37:45 +0200
+
 mate-panel (1.27.1-5) unstable; urgency=medium
 
   [ Simon McVittie ]
