@@ -10,3 +10,4 @@
 0105-configure.ac-Make-RDA-enablement-controllable-via-co.patch
 0106-mate-panel-Makefile.am-Cleanup-WAYLAND_CFLAGS-and-WA.patch
 fix-ftbfs-gettext.patch
+1001-panel-background-fix-uninitialized-surface.patch
