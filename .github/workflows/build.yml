@@ -57,7 +57,7 @@ jobs:
         working-directory: ${{ env.SRCDIR }}
         run: |
           set -o pipefail
-          mk-build-deps -i -r -t "apt-get -y --no-install-recommends" debian/control 2>&1 | tee /tmp/deps.log
+          (mk-build-deps debian/control && apt-get install -y --no-install-recommends ./*-build-deps_*.deb) 2>&1 | tee /tmp/deps.log
 
       - name: Build
         working-directory: ${{ env.SRCDIR }}
