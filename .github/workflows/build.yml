@@ -17,7 +17,7 @@ jobs:
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
-            ca-certificates curl git jq devscripts equivs build-essential fakeroot
+            ca-certificates curl git quilt jq devscripts equivs build-essential fakeroot
 
       - uses: actions/checkout@v4
 
@@ -44,6 +44,12 @@ jobs:
           tar -C ../build -xf "../build/mate-panel_${UPSTREAM}.orig.tar.xz"
           cp -a debian "../build/mate-panel-${UPSTREAM}/"
           echo "SRCDIR=$(realpath ../build/mate-panel-${UPSTREAM})" >> "$GITHUB_ENV"
+
+      - name: Apply quilt patches
+        working-directory: ${{ env.SRCDIR }}
+        run: |
+          export QUILT_PATCHES=debian/patches
+          quilt push -a || [ $? -eq 2 ]   # 2 = nothing to apply
 
       - name: Install build dependencies
         working-directory: ${{ env.SRCDIR }}
