@@ -1,3 +1,4 @@
 version=4
-https://git.mate-desktop.org/mate-panel/ \
-    snapshot/mate-panel-(\d\.(?:[0-9]+|)[246780]\.\d)\.tar\.xz
+opts="searchmode=plain" \
+https://api.github.com/repos/mate-desktop/mate-panel/releases?per_page=100 \
+    https://github.com/mate-desktop/mate-panel/releases/download/v(\d\S*)/mate-panel-(\d\S*)\.tar\.xz

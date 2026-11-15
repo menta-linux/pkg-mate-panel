@@ -6,15 +6,9 @@ Subject: [PATCH 5/6] configure.ac: Make RDA enablement controllable via
 
 Signed-off-by: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
 ---
- configure.ac           | 23 ++++++++++++++++++++++-
- mate-panel/Makefile.am | 12 ++++++++++--
- 2 files changed, 32 insertions(+), 3 deletions(-)
-
-diff --git a/configure.ac b/configure.ac
-index 3b60dfe4..4748f9b7 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -246,11 +246,32 @@ fi
+@@ -270,11 +270,32 @@
  
  dnl Remote Desktop Awareness
  
@@ -48,11 +42,9 @@ index 3b60dfe4..4748f9b7 100644
  dnl Modules dir
  AC_SUBST([modulesdir],"\$(libdir)/mate-panel/modules")
  
-diff --git a/mate-panel/Makefile.am b/mate-panel/Makefile.am
-index b588bad3..7fda7e6f 100644
 --- a/mate-panel/Makefile.am
 +++ b/mate-panel/Makefile.am
-@@ -142,10 +142,14 @@ mate_panel_SOURCES = \
+@@ -142,10 +142,14 @@
  mate_panel_CPPFLAGS = \
  	$(AM_CPPFLAGS) \
  	$(XRANDR_CFLAGS) \
@@ -68,7 +60,7 @@ index b588bad3..7fda7e6f 100644
  if ENABLE_WAYLAND
  mate_panel_CPPFLAGS += \
  	$(WAYLAND_CFLAGS)
-@@ -158,10 +162,14 @@ mate_panel_LDADD = \
+@@ -158,10 +162,14 @@
  	$(PANEL_LIBS) \
  	$(DCONF_LIBS) \
  	$(XRANDR_LIBS) \
@@ -84,6 +76,3 @@ index b588bad3..7fda7e6f 100644
  if ENABLE_WAYLAND
  mate_panel_LDADD += \
  	$(WAYLAND_LIBS)
--- 
-2.39.2
-

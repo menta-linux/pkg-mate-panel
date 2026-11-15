@@ -32,7 +32,9 @@ Build-Depends: autoconf-archive,
                librda-dev (>= 0.0.3-2~),
                librsvg2-dev,
                libsm-dev,
+               libwayland-dev [linux-any],
                libwnck-3-dev (>= 3.32),
+               libxfce4windowing-dev (>= 4.20.2) [linux-any],
                libx11-dev,
                libxau-dev,
                libxrandr-dev,
@@ -48,7 +50,7 @@ Vcs-Git: https://salsa.debian.org/debian-mate-team/mate-panel.git
 
 Package: mate-panel
 Architecture: any
-Depends: libmate-panel-applet-4-1 (= ${binary:Version}),
+Depends: libmate-panel-applet-4-2 (= ${binary:Version}),
          mate-desktop,
          mate-menus,
          mate-panel-common (= ${source:Version}),
@@ -80,7 +82,7 @@ Description: launcher and docking facility for MATE (common files)
  .
  This package contains the architecture independent files.
 
-Package: libmate-panel-applet-4-1
+Package: libmate-panel-applet-4-2
 Section: libs
 Multi-Arch: same
 Architecture: any
@@ -108,7 +110,7 @@ Section: libdevel
 Architecture: any
 Depends: libglib2.0-dev,
          libgtk-3-dev,
-         libmate-panel-applet-4-1 (= ${binary:Version}),
+         libmate-panel-applet-4-2 (= ${binary:Version}),
          ${gir:Depends},
          ${misc:Depends},
          ${shlibs:Depends},

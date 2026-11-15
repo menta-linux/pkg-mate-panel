@@ -6,14 +6,9 @@ Subject: [PATCH 6/6] mate-panel/Makefile.am: Cleanup WAYLAND_CFLAGS and
 
 Signed-off-by: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
 ---
- mate-panel/Makefile.am | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/mate-panel/Makefile.am b/mate-panel/Makefile.am
-index 7fda7e6f..8a1358c9 100644
 --- a/mate-panel/Makefile.am
 +++ b/mate-panel/Makefile.am
-@@ -15,8 +15,7 @@ AM_CPPFLAGS = \
+@@ -15,8 +15,7 @@
  	-I$(top_builddir)/mate-panel/libpanel-util \
  	-DMATELOCALEDIR=\""$(datadir)/locale"\" \
  	-DPANELDATADIR=\""$(datadir)/mate-panel"\" \
@@ -23,7 +18,7 @@ index 7fda7e6f..8a1358c9 100644
  
  AM_CFLAGS = $(WARN_CFLAGS)
  
-@@ -162,8 +161,7 @@ mate_panel_LDADD = \
+@@ -162,8 +161,7 @@
  	$(PANEL_LIBS) \
  	$(DCONF_LIBS) \
  	$(XRANDR_LIBS) \
@@ -33,6 +28,3 @@ index 7fda7e6f..8a1358c9 100644
  
  if ENABLE_RDA
  mate_panel_LDADD += \
--- 
-2.39.2
-

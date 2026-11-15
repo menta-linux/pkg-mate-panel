@@ -1,0 +1,80 @@
+name: Build Debian packages
+
+on:
+  push:
+    branches: [master]
+    tags: ['menta/*']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:unstable
+    steps:
+      - name: Install tooling
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            ca-certificates curl git jq devscripts equivs build-essential fakeroot
+
+      - uses: actions/checkout@v4
+
+      # mate-panel 1.29.x needs mate-desktop >= 1.29.1, which Debian does not
+      # ship yet: take the Menta build from menta-linux/pkg-mate-desktop.
+      - name: Install Menta libmate-desktop
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/menta-deps
+          curl -fsSL -H "Authorization: Bearer $GH_TOKEN" \
+            https://api.github.com/repos/menta-linux/pkg-mate-desktop/releases/latest \
+            | jq -r '.assets[].browser_download_url' \
+            | grep -E '/(libmate-desktop-2-17t64|libmate-desktop-dev|gir1\.2-matedesktop-2\.0|mate-desktop-common)_[^/]*\.deb$' \
+            | while read -r u; do curl -fsSL -O --output-dir /tmp/menta-deps "$u"; done
+          apt-get install -y /tmp/menta-deps/*.deb
+
+      - name: Fetch upstream tarball
+        run: |
+          UPSTREAM=$(dpkg-parsechangelog -S Version | sed 's/-[^-]*$//')
+          mkdir -p ../build
+          curl -fsSL -o "../build/mate-panel_${UPSTREAM}.orig.tar.xz" \
+            "https://github.com/mate-desktop/mate-panel/releases/download/v${UPSTREAM}/mate-panel-${UPSTREAM}.tar.xz"
+          tar -C ../build -xf "../build/mate-panel_${UPSTREAM}.orig.tar.xz"
+          cp -a debian "../build/mate-panel-${UPSTREAM}/"
+          echo "SRCDIR=$(realpath ../build/mate-panel-${UPSTREAM})" >> "$GITHUB_ENV"
+
+      - name: Install build dependencies
+        working-directory: ${{ env.SRCDIR }}
+        run: |
+          mk-build-deps -i -r -t "apt-get -y --no-install-recommends" debian/control
+
+      - name: Build
+        working-directory: ${{ env.SRCDIR }}
+        run: dpkg-buildpackage -us -uc -b
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/artifacts"
+          cp -v ../build/*.deb ../build/*.buildinfo ../build/*.changes "$GITHUB_WORKSPACE/artifacts/"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mate-panel-debs
+          path: artifacts/*
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/menta/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: mate-panel-debs
+          path: artifacts
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
