@@ -1,3 +1,45 @@
+mate-panel (1.29.2-1menta2) unstable; urgency=medium
+
+  * Apply upstream mate-panel PRs #1607 (Wayland: keep panels on the
+    right monitor), #1608 (allocate panel window at origin), #1605
+    (activate window on drag hover over task button) and #1610
+    (org.mate.Panel.Shell D-Bus interface), stacked in that order as
+    patches 0201-0204.
+  * debian/control: Build-Depend on libwayland-bin and wayland-protocols
+    (>= 1.14) (needed by #1607/#1610), libgtk-layer-shell-dev (>= 0.8.0).
+  * debian/rules: Configure with --enable-x11=yes --enable-wayland=yes
+    so configure fails rather than silently skipping either backend.
+  * Checked 0101-0106 and 1001 against 1.29.2 and master: the RDA
+    patches are not upstream; 1001 is in master but not in 1.29.2, so
+    it is kept.
+
+ -- Menta Linux <packages@menta-linux.invalid>  Sun, 22 Nov 2026 20:54:18 -0700
+
+mate-panel (1.29.2-1menta1) unstable; urgency=medium
+
+  * Menta Linux rebuild: new upstream release 1.29.2 (development
+    snapshot).
+  * debian/control: Build-Depend on libwayland-dev and
+    libxfce4windowing-dev (>= 4.20.2), required by upstream's Wayland
+    support.
+  * debian/rules: Configure with --enable-wayland and --with-in-process-
+    applets=all.
+  * debian/mate-panel.install: Applets are in-process, no longer install
+    /usr/libexec/mate-panel/*-applet.
+  * debian/patches: Drop patches merged upstream (0001-0006, fix-ftbfs-
+    gettext); refresh the RDA series (0101-0106) and 1001 for 1.29.2.
+  * debian/watch: Track GitHub releases.
+  * Applets are now compiled into the panel as in-process modules
+    (/usr/lib/*/mate-panel/lib*-applet.so): install them in mate-panel;
+    no D-Bus applet factory services remain.
+  * Upstream bumped the libmate-panel-applet-4 soname to .so.2: rename
+    libmate-panel-applet-4-1 to libmate-panel-applet-4-2
+    (install/symbols/control).
+  * debian/rules: Do not ship libtool .la files of the in-process applet
+    modules.
+
+ -- Menta Linux <packages@menta-linux.invalid>  Sat, 14 Nov 2026 17:14:23 -0700
+
 mate-panel (1.27.1-6) unstable; urgency=medium
 
   * debian/patches:

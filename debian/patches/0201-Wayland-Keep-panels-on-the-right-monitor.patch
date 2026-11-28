@@ -1,0 +1,1012 @@
+Description: Wayland: Keep panels on the right monitor (mate-panel PR #1607)
+Origin: upstream, https://github.com/mate-desktop/mate-panel/pull/1607
+Forwarded: not-needed
+
+--- w.orig/configure.ac
++++ w/configure.ac
+@@ -74,6 +74,12 @@ PKG_CHECK_MODULES(PANEL, $GMODULE_ADD gd
+ AC_SUBST(PANEL_CFLAGS)
+ AC_SUBST(PANEL_LIBS)
+ 
++save_CPPFLAGS="$CPPFLAGS"
++CPPFLAGS="$CPPFLAGS $PANEL_CFLAGS -DMATE_DESKTOP_USE_UNSTABLE_API"
++AC_CHECK_HEADER([libmate-desktop/mate-monitor-info.h],
++                [AC_DEFINE(HAVE_MATE_MONITOR_INFO, 1, [Define if libmate-desktop has MateMonitorInfo])])
++CPPFLAGS="$save_CPPFLAGS"
++
+ PKG_CHECK_MODULES(DCONF, dconf >= $DCONF_REQUIRED)
+ 
+ PKG_CHECK_MODULES(LIBMATE_PANEL_APPLET, gtk+-3.0 >= $GTK_REQUIRED gio-2.0 >= $GLIB_REQUIRED gio-unix-2.0 >= $GLIB_REQUIRED)
+--- w.orig/data/org.mate.panel.toplevel.gschema.xml.in
++++ w/data/org.mate.panel.toplevel.gschema.xml.in
+@@ -15,6 +15,11 @@
+       <summary>Xinerama monitor where the panel is displayed</summary>
+       <description>In a Xinerama setup, you may have panels on each individual monitor. This key identifies the current monitor the panel is displayed on.</description>
+     </key>
++    <key name="monitor-id" type="s">
++      <default>''</default>
++      <summary>Monitor id where the panel is displayed</summary>
++      <description>The id of the monitor the panel belongs on, as MateMonitorInfo names it. While that monitor is not connected the panel shows on the primary monitor, and it goes back when the monitor returns. Used on Wayland; when empty, the "monitor" key is used and this key is filled in from it.</description>
++    </key>
+     <key name="expand" type="b">
+       <default>true</default>
+       <summary>Expand to occupy entire screen width</summary>
+--- w.orig/mate-panel/Makefile.am
++++ w/mate-panel/Makefile.am
+@@ -5,6 +5,11 @@ bin_PROGRAMS = \
+ 	mate-desktop-item-edit \
+ 	mate-panel-test-applets
+ 
++check_PROGRAMS = test-panel-monitor-lookup
++TESTS = $(check_PROGRAMS)
++test_panel_monitor_lookup_SOURCES = test-panel-monitor-lookup.c panel-monitor-lookup.c panel-monitor-lookup.h
++test_panel_monitor_lookup_LDADD = $(PANEL_LIBS)
++
+ AM_CPPFLAGS = \
+ 	$(PANEL_CFLAGS) \
+ 	$(DCONF_CFLAGS) \
+@@ -49,6 +54,7 @@ panel_sources = \
+ 	panel-toplevel.c \
+ 	panel-frame.c \
+ 	panel-multimonitor.c \
++	panel-monitor-lookup.c \
+ 	panel-a11y.c \
+ 	panel-bindings.c \
+ 	panel-layout.c \
+@@ -105,6 +111,7 @@ panel_headers = \
+ 	panel-toplevel.h \
+ 	panel-frame.h \
+ 	panel-multimonitor.h \
++	panel-monitor-lookup.h \
+ 	panel-a11y.h \
+ 	panel-bindings.h \
+ 	panel-layout.h \
+--- w.orig/mate-panel/meson.build
++++ w/mate-panel/meson.build
+@@ -201,6 +201,7 @@ panel_sources = [
+   'panel-toplevel.c',
+   'panel-frame.c',
+   'panel-multimonitor.c',
++  'panel-monitor-lookup.c',
+   'panel-a11y.c',
+   'panel-bindings.c',
+   'panel-layout.c',
+@@ -241,6 +242,7 @@ panel_sources = [
+   'panel-toplevel.h',
+   'panel-frame.h',
+   'panel-multimonitor.h',
++  'panel-monitor-lookup.h',
+   'panel-a11y.h',
+   'panel-bindings.h',
+   'panel-layout.h',
+@@ -294,6 +296,11 @@ executable('mate-panel',
+   install: true,
+ )
+ 
++test('panel-monitor-lookup', executable('test-panel-monitor-lookup',
++  ['test-panel-monitor-lookup.c', 'panel-monitor-lookup.c'],
++  dependencies: glib_dep,
++))
++
+ mate_desktop_item_edit_sources = [
+   'mate-desktop-item-edit.c',
+   'panel-ditem-editor.c',
+--- /dev/null
++++ w/mate-panel/panel-monitor-lookup.c
+@@ -0,0 +1,78 @@
++/*
++ * panel-monitor-lookup.c: which monitor a panel goes on.
++ *
++ * Copyright (C) 2026 MATE Developers
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
++ * USA
++ */
++
++#include "panel-monitor-lookup.h"
++
++void
++panel_monitor_entries_free (PanelMonitorEntry *entries,
++                            int                n_entries)
++{
++	int i;
++
++	for (i = 0; i < n_entries; i++)
++		g_free (entries[i].id);
++	g_free (entries);
++}
++
++int
++panel_monitor_lookup (const PanelMonitorEntry *entries,
++                      int                      n_entries,
++                      int                      n_monitors,
++                      int                      primary,
++                      const char              *configured_id,
++                      int                      configured_index)
++{
++	int i;
++
++	if (n_monitors <= 0)
++		return -1;
++
++	if (configured_id != NULL && configured_id[0] != '\0') {
++		for (i = 0; i < n_entries; i++) {
++			if (entries[i].monitor >= 0 && entries[i].monitor < n_monitors &&
++			    g_strcmp0 (entries[i].id, configured_id) == 0)
++				return entries[i].monitor;
++		}
++	} else if (configured_index >= 0 && configured_index < n_monitors) {
++		if (primary < 0 || primary >= n_monitors)
++			return configured_index;
++		if (configured_index == 0)
++			return primary;
++		return configured_index <= primary ? configured_index - 1 : configured_index;
++	}
++
++	return primary >= 0 && primary < n_monitors ? primary : 0;
++}
++
++const char *
++panel_monitor_id_for_index (const PanelMonitorEntry *entries,
++                            int                      n_entries,
++                            int                      monitor)
++{
++	int i;
++
++	for (i = 0; i < n_entries; i++) {
++		if (entries[i].monitor == monitor && entries[i].id != NULL && entries[i].id[0] != '\0')
++			return entries[i].id;
++	}
++
++	return NULL;
++}
+--- /dev/null
++++ w/mate-panel/panel-monitor-lookup.h
+@@ -0,0 +1,50 @@
++/*
++ * panel-monitor-lookup.h: which monitor a panel goes on.
++ *
++ * Copyright (C) 2026 MATE Developers
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
++ * USA
++ */
++
++#ifndef __PANEL_MONITOR_LOOKUP_H__
++#define __PANEL_MONITOR_LOOKUP_H__
++
++#include <glib.h>
++
++G_BEGIN_DECLS
++
++typedef struct {
++	char *id;
++	int   monitor;
++} PanelMonitorEntry;
++
++void        panel_monitor_entries_free  (PanelMonitorEntry *entries,
++                                         int                n_entries);
++
++int         panel_monitor_lookup        (const PanelMonitorEntry *entries,
++                                         int                      n_entries,
++                                         int                      n_monitors,
++                                         int                      primary,
++                                         const char              *configured_id,
++                                         int                      configured_index);
++
++const char *panel_monitor_id_for_index  (const PanelMonitorEntry *entries,
++                                         int                      n_entries,
++                                         int                      monitor);
++
++G_END_DECLS
++
++#endif /* __PANEL_MONITOR_LOOKUP_H__ */
+--- w.orig/mate-panel/panel-multimonitor.c
++++ w/mate-panel/panel-multimonitor.c
+@@ -38,6 +38,11 @@
+ #define GDK_IS_X11_DISPLAY(object)        !(G_TYPE_CHECK_INSTANCE_TYPE ((object), GDK_TYPE_WAYLAND_DISPLAY))
+ #endif
+ 
++#ifdef HAVE_MATE_MONITOR_INFO
++#define MATE_DESKTOP_USE_UNSTABLE_API
++#include <libmate-desktop/mate-monitor-info.h>
++#endif
++
+ #include "panel-multimonitor.h"
+ 
+ #include <string.h>
+@@ -410,6 +415,30 @@ panel_multimonitor_handle_monitor_invali
+ 	reinit_id = g_idle_add (panel_multimonitor_reinit_idle, NULL);
+ }
+ 
++static void
++panel_multimonitor_handle_monitor_geometry (GdkMonitor *monitor,
++					    GParamSpec *pspec,
++					    gpointer    user_data)
++{
++	if (reinit_id)
++		return;
++
++	reinit_id = g_idle_add (panel_multimonitor_reinit_idle, NULL);
++}
++
++#ifdef HAVE_MATE_MONITOR_INFO
++static void
++panel_multimonitor_handle_info_changed (MateMonitorInfo *info,
++					GdkMonitor      *monitor,
++					gpointer         user_data)
++{
++	if (reinit_id)
++		return;
++
++	reinit_id = g_idle_add (panel_multimonitor_reinit_idle, NULL);
++}
++#endif
++
+ #ifdef HAVE_X11
+ #ifdef HAVE_RANDR
+ static void
+@@ -488,7 +517,20 @@ panel_multimonitor_init (void)
+ 		g_signal_handlers_disconnect_by_func (display, panel_multimonitor_handle_monitor_invalidate, NULL);
+ 		g_signal_connect (monitor, "invalidate",
+ 			  G_CALLBACK (panel_multimonitor_handle_monitor_invalidate), NULL);
++		g_signal_handlers_disconnect_by_func (monitor, panel_multimonitor_handle_monitor_geometry, NULL);
++		g_signal_connect (monitor, "notify::geometry",
++			  G_CALLBACK (panel_multimonitor_handle_monitor_geometry), NULL);
++	}
++
++#ifdef HAVE_MATE_MONITOR_INFO
++	if (panel_multimonitor_has_monitor_ids ()) {
++		MateMonitorInfo *info = mate_monitor_info_get_for_display (display);
++
++		g_signal_handlers_disconnect_by_func (info, panel_multimonitor_handle_info_changed, NULL);
++		g_signal_connect (info, "changed",
++				  G_CALLBACK (panel_multimonitor_handle_info_changed), NULL);
+ 	}
++#endif
+ 
+ 	panel_multimonitor_get_raw_monitors (&monitor_count, &geometries);
+ 	panel_multimonitor_compress_overlapping_monitors (&monitor_count, &geometries);
+@@ -698,3 +740,109 @@ panel_multimonitor_get_bounds (GdkPoint
+ 		max->y = MAX (max->y, geometries[i].y + geometries[i].height);
+ 	}
+ }
++
++static int
++panel_multimonitor_monitor_of (GdkMonitor *gdk_monitor)
++{
++	GdkRectangle geometry;
++	int          best = -1;
++	long         best_pixels = 0;
++	int          i;
++
++	gdk_monitor_get_geometry (gdk_monitor, &geometry);
++	if (geometry.width <= 0 || geometry.height <= 0)
++		return -1;
++
++	for (i = 0; i < monitor_count; i++) {
++		GdkRectangle overlap;
++
++		if (gdk_rectangle_equal (&geometry, &geometries[i]))
++			return i;
++		if (gdk_rectangle_intersect (&geometry, &geometries[i], &overlap) &&
++		    pixels_in_rectangle (&overlap) > best_pixels) {
++			best = i;
++			best_pixels = pixels_in_rectangle (&overlap);
++		}
++	}
++
++	return best;
++}
++
++GdkMonitor *
++panel_multimonitor_get_gdk_monitor (int monitor)
++{
++	GdkDisplay *display = gdk_display_get_default ();
++	int         n = gdk_display_get_n_monitors (display);
++	int         i;
++
++	for (i = 0; i < n; i++) {
++		GdkMonitor *gdk_monitor = gdk_display_get_monitor (display, i);
++
++		if (panel_multimonitor_monitor_of (gdk_monitor) == monitor)
++			return gdk_monitor;
++	}
++
++	return NULL;
++}
++
++gboolean
++panel_multimonitor_has_monitor_ids (void)
++{
++#if defined (HAVE_WAYLAND) && defined (HAVE_MATE_MONITOR_INFO)
++	return !GDK_IS_X11_DISPLAY (gdk_display_get_default ());
++#else
++	return FALSE;
++#endif
++}
++
++
++PanelMonitorEntry *
++panel_multimonitor_get_entries (int *n_entries)
++{
++	*n_entries = 0;
++
++#ifdef HAVE_MATE_MONITOR_INFO
++	if (panel_multimonitor_has_monitor_ids ()) {
++		GdkDisplay        *display = gdk_display_get_default ();
++		MateMonitorInfo   *info = mate_monitor_info_get_for_display (display);
++		int                n = gdk_display_get_n_monitors (display);
++		PanelMonitorEntry *entries = g_new0 (PanelMonitorEntry, MAX (n, 1));
++		int                i;
++
++		for (i = 0; i < n; i++) {
++			GdkMonitor *gdk_monitor = gdk_display_get_monitor (display, i);
++
++			entries[i].id = mate_monitor_info_get_id (info, gdk_monitor);
++			entries[i].monitor = panel_multimonitor_monitor_of (gdk_monitor);
++		}
++
++		*n_entries = n;
++		return entries;
++	}
++#endif
++
++	return NULL;
++}
++
++int
++panel_multimonitor_get_primary (void)
++{
++	GdkDisplay *display = gdk_display_get_default ();
++	int         n = gdk_display_get_n_monitors (display);
++	int         i;
++
++	for (i = 0; i < n; i++) {
++		GdkMonitor *gdk_monitor = gdk_display_get_monitor (display, i);
++		gboolean    primary;
++
++#ifdef HAVE_MATE_MONITOR_INFO
++		primary = mate_monitor_info_is_primary (mate_monitor_info_get_for_display (display), gdk_monitor);
++#else
++		primary = gdk_monitor_is_primary (gdk_monitor);
++#endif
++		if (primary)
++			return panel_multimonitor_monitor_of (gdk_monitor);
++	}
++
++	return -1;
++}
+--- w.orig/mate-panel/panel-multimonitor.h
++++ w/mate-panel/panel-multimonitor.h
+@@ -29,6 +29,8 @@
+ 
+ #include <gtk/gtk.h>
+ 
++#include "panel-monitor-lookup.h"
++
+ void	panel_multimonitor_init                  (void);
+ void	panel_multimonitor_reinit                (void);
+ 
+@@ -49,4 +51,9 @@ void	panel_multimonitor_is_at_visible_ex
+ void	panel_multimonitor_get_bounds            (GdkPoint *min,
+ 						  GdkPoint *max);
+ 
++gboolean           panel_multimonitor_has_monitor_ids (void);
++PanelMonitorEntry *panel_multimonitor_get_entries     (int *n_entries);
++int                panel_multimonitor_get_primary     (void);
++GdkMonitor        *panel_multimonitor_get_gdk_monitor (int monitor);
++
+ #endif /* __PANEL_MULTIMONITOR_H__ */
+--- w.orig/mate-panel/panel-profile.c
++++ w/mate-panel/panel-profile.c
+@@ -623,6 +623,27 @@ panel_profile_queue_toplevel_location_ch
+ 	}
+ 
+ TOPLEVEL_LOCATION_CHANGED_HANDLER(monitor)
++
++static void
++panel_profile_save_monitor_id (PanelToplevel *toplevel)
++{
++	const char *id = panel_toplevel_get_monitor_id (toplevel);
++	char       *saved;
++
++	if (id == NULL)
++		return;
++
++	saved = g_settings_get_string (toplevel->settings, PANEL_TOPLEVEL_MONITOR_ID_KEY);
++	if (strcmp (saved, id) != 0)
++		g_settings_set_string (toplevel->settings, PANEL_TOPLEVEL_MONITOR_ID_KEY, id);
++	g_free (saved);
++}
++
++static void
++panel_profile_toplevel_monitor_id_changed (PanelToplevel *toplevel)
++{
++	panel_profile_save_monitor_id (toplevel);
++}
+ TOPLEVEL_LOCATION_CHANGED_HANDLER(size)
+ TOPLEVEL_LOCATION_CHANGED_HANDLER(orientation)
+ TOPLEVEL_LOCATION_CHANGED_HANDLER(x_centered)
+@@ -665,6 +686,8 @@ panel_profile_connect_to_toplevel (Panel
+ 			  G_CALLBACK (panel_profile_toplevel_screen_changed), NULL);
+ 	g_signal_connect (toplevel, "notify::monitor",
+ 			  G_CALLBACK (panel_profile_toplevel_monitor_changed), NULL);
++	g_signal_connect (toplevel, "notify::monitor-id",
++			  G_CALLBACK (panel_profile_toplevel_monitor_id_changed), NULL);
+ 	g_signal_connect (toplevel, "notify::size",
+ 			  G_CALLBACK (panel_profile_toplevel_size_changed), NULL);
+ 	g_signal_connect (toplevel, "notify::x",
+@@ -764,6 +787,13 @@ panel_profile_toplevel_change_notify (GS
+ 			panel_profile_toplevel_screen_changed (toplevel);
+ 	}
+ 	else UPDATE_INT ("monitor", monitor)
++	else if (!strcmp (key, "monitor-id")) {
++		char *id = g_settings_get_string (settings, key);
++
++		if (id[0] != '\0')
++			panel_toplevel_set_monitor_id (toplevel, id);
++		g_free (id);
++	}
+ 	else UPDATE_STRING ("name", name)
+ 	else UPDATE_BOOL ("expand", expand)
+ 	else UPDATE_ENUM ("orientation", orientation)
+@@ -1145,6 +1175,16 @@ panel_profile_load_toplevel (const char
+ 
+ 	GET_STRING ("name", name);
+ 	GET_INT ("monitor", monitor);
++	{
++		char *monitor_id;
++
++		monitor_id = g_settings_get_string (toplevel->settings, PANEL_TOPLEVEL_MONITOR_ID_KEY);
++		if (monitor_id[0] != '\0')
++			panel_toplevel_set_monitor_id (toplevel, monitor_id);
++		else
++			panel_toplevel_adopt_monitor_index (toplevel);
++		g_free (monitor_id);
++	}
+ 	GET_BOOL ("expand", expand);
+ 	GET_ENUM ("orientation", orientation);
+ 	GET_INT ("size", size);
+@@ -1176,6 +1216,7 @@ panel_profile_load_toplevel (const char
+ 	panel_profile_set_toplevel_id (toplevel, toplevel_id);
+ 
+ 	panel_profile_connect_to_toplevel (toplevel);
++	panel_profile_save_monitor_id (toplevel);
+ 
+ 	g_signal_connect (toplevel->settings,
+ 					  "changed",
+--- w.orig/mate-panel/panel-schemas.h
++++ w/mate-panel/panel-schemas.h
+@@ -21,6 +21,7 @@
+ #define PANEL_TOPLEVEL_NAME_KEY              "name"
+ #define PANEL_TOPLEVEL_SCREEN_KEY            "screen"
+ #define PANEL_TOPLEVEL_MONITOR_KEY           "monitor"
++#define PANEL_TOPLEVEL_MONITOR_ID_KEY        "monitor-id"
+ #define PANEL_TOPLEVEL_EXPAND_KEY            "expand"
+ #define PANEL_TOPLEVEL_ORIENTATION_KEY       "orientation"
+ #define PANEL_TOPLEVEL_SIZE_KEY              "size"
+--- w.orig/mate-panel/panel-toplevel.c
++++ w/mate-panel/panel-toplevel.c
+@@ -109,6 +109,7 @@ struct _PanelToplevelPrivate {
+ 	 * we can move the toplevel to the right monitor when it becomes
+ 	 * available */
+ 	int                     configured_monitor;
++	char                   *configured_monitor_id;
+ 
+ 	int                     hide_delay;
+ 	int                     unhide_delay;
+@@ -250,6 +251,7 @@ enum {
+ 	PROP_Y_BOTTOM,
+ 	PROP_Y_CENTERED,
+ 	PROP_MONITOR,
++	PROP_MONITOR_ID,
+ 	PROP_AUTOHIDE,
+ 	PROP_HIDE_DELAY,
+ 	PROP_UNHIDE_DELAY,
+@@ -1496,6 +1498,7 @@ static gboolean panel_toplevel_update_st
+ {
+ 	PanelOrientation  orientation;
+ 	gboolean          geometry_changed = FALSE;
++	gboolean          keep_orientation = FALSE;
+ 	int               strut, strut_start, strut_end;
+ 	int               x, y, width, height;
+ 	GdkRectangle	  monitor_geom;
+@@ -1503,6 +1506,10 @@ static gboolean panel_toplevel_update_st
+ 	if (!toplevel->priv->updated_geometry_initial)
+ 		return FALSE;
+ 
++#ifdef HAVE_WAYLAND
++	keep_orientation = GDK_IS_WAYLAND_DISPLAY (gtk_widget_get_display (GTK_WIDGET (toplevel)));
++#endif
++
+ #ifdef HAVE_X11
+ 	if (GDK_IS_X11_DISPLAY (gtk_widget_get_display (GTK_WIDGET (toplevel))) && toplevel->priv->attached) {
+ 		panel_struts_unregister_strut (toplevel);
+@@ -1527,6 +1534,11 @@ static gboolean panel_toplevel_update_st
+ 
+ 	panel_toplevel_get_monitor_geometry (toplevel, &monitor_geom);
+ 
++	/* GTK announces a Wayland monitor before its size: a panel measured
++	 * against 0x0 would take the top edge for good. */
++	if (monitor_geom.width <= 0 || monitor_geom.height <= 0)
++		return FALSE;
++
+ 	if (end_of_animation) {
+ 		x = toplevel->priv->animation_end_x;
+ 		y = toplevel->priv->animation_end_y;
+@@ -1552,10 +1564,12 @@ static gboolean panel_toplevel_update_st
+ 	strut = strut_start = strut_end = 0;
+ 
+ 	if (orientation & PANEL_HORIZONTAL_MASK) {
+-		if (y <= monitor_geom.y) {
++		if (y <= monitor_geom.y &&
++		    (!keep_orientation || orientation == PANEL_ORIENTATION_TOP)) {
+ 			orientation = PANEL_ORIENTATION_TOP;
+ 			strut = y + height - monitor_geom.y;
+-		} else if (y >= monitor_geom.y + monitor_geom.height - height) {
++		} else if (y >= monitor_geom.y + monitor_geom.height - height &&
++		           (!keep_orientation || orientation == PANEL_ORIENTATION_BOTTOM)) {
+ 			orientation = PANEL_ORIENTATION_BOTTOM;
+ 			strut = monitor_geom.y + monitor_geom.height - y;
+ 		}
+@@ -1565,10 +1579,12 @@ static gboolean panel_toplevel_update_st
+ 			strut_end = MIN (x + width, monitor_geom.x + monitor_geom.width) - 1;
+ 		}
+ 	} else {
+-		if (x <= monitor_geom.x) {
++		if (x <= monitor_geom.x &&
++		    (!keep_orientation || orientation == PANEL_ORIENTATION_LEFT)) {
+ 			orientation = PANEL_ORIENTATION_LEFT;
+ 			strut = x + width - monitor_geom.x;
+-		} else if (x >= monitor_geom.x + monitor_geom.width - width) {
++		} else if (x >= monitor_geom.x + monitor_geom.width - width &&
++		           (!keep_orientation || orientation == PANEL_ORIENTATION_RIGHT)) {
+ 			orientation = PANEL_ORIENTATION_RIGHT;
+ 			strut = monitor_geom.x + monitor_geom.width - x;
+ 		}
+@@ -3225,6 +3241,7 @@ panel_toplevel_dispose (GObject *widget)
+ 
+ 	g_clear_pointer (&toplevel->priv->description, g_free);
+ 	g_clear_pointer (&toplevel->priv->name, g_free);
++	g_clear_pointer (&toplevel->priv->configured_monitor_id, g_free);
+ 
+ 	panel_toplevel_disconnect_timeouts (toplevel);
+ 
+@@ -4339,6 +4356,9 @@ panel_toplevel_set_property (GObject
+ 	case PROP_MONITOR:
+ 		panel_toplevel_set_monitor (toplevel, g_value_get_int (value));
+ 		break;
++	case PROP_MONITOR_ID:
++		panel_toplevel_set_monitor_id (toplevel, g_value_get_string (value));
++		break;
+ 	case PROP_AUTOHIDE:
+ 		panel_toplevel_set_auto_hide (toplevel, g_value_get_boolean (value));
+ 		break;
+@@ -4418,6 +4438,9 @@ panel_toplevel_get_property (GObject
+ 	case PROP_MONITOR:
+ 		g_value_set_int (value, toplevel->priv->monitor);
+ 		break;
++	case PROP_MONITOR_ID:
++		g_value_set_string (value, toplevel->priv->configured_monitor_id);
++		break;
+ 	case PROP_AUTOHIDE:
+ 		g_value_set_boolean (value, toplevel->priv->auto_hide);
+ 		break;
+@@ -4666,6 +4689,16 @@ panel_toplevel_class_init (PanelToplevel
+ 
+ 	g_object_class_install_property (
+ 		gobject_class,
++		PROP_MONITOR_ID,
++		g_param_spec_string (
++			"monitor-id",
++			"Monitor id",
++			"The id of the monitor the panel belongs on",
++			NULL,
++			G_PARAM_READWRITE));
++
++	g_object_class_install_property (
++		gobject_class,
+ 		PROP_AUTOHIDE,
+ 		g_param_spec_boolean (
+ 			"auto-hide",
+@@ -5640,6 +5673,24 @@ panel_toplevel_set_monitor_internal (Pan
+ static void
+ panel_toplevel_update_monitor (PanelToplevel *toplevel)
+ {
++	if (panel_multimonitor_has_monitor_ids ()) {
++		PanelMonitorEntry *entries;
++		int                n_entries;
++		int                monitor;
++
++		entries = panel_multimonitor_get_entries (&n_entries);
++		monitor = panel_monitor_lookup (entries, n_entries,
++		                                panel_multimonitor_monitors (),
++		                                panel_multimonitor_get_primary (),
++		                                toplevel->priv->configured_monitor_id,
++		                                toplevel->priv->configured_monitor);
++		panel_monitor_entries_free (entries, n_entries);
++
++		if (monitor >= 0)
++			panel_toplevel_set_monitor_internal (toplevel, monitor, FALSE);
++		return;
++	}
++
+ 	/* If we were not using the configured monitor, can we use it now? */
+ 	if ((toplevel->priv->configured_monitor != -1) &&
+ 	    (toplevel->priv->configured_monitor != toplevel->priv->monitor) &&
+@@ -5656,12 +5707,58 @@ panel_toplevel_update_monitor (PanelTopl
+ 	}
+ }
+ 
++static void
++panel_toplevel_take_monitor_id (PanelToplevel *toplevel,
++				int            monitor)
++{
++	PanelMonitorEntry *entries;
++	int                n_entries;
++	const char        *id;
++
++	entries = panel_multimonitor_get_entries (&n_entries);
++	id = panel_monitor_id_for_index (entries, n_entries, monitor);
++	if (id != NULL)
++		panel_toplevel_set_monitor_id (toplevel, id);
++	panel_monitor_entries_free (entries, n_entries);
++}
++
++void
++panel_toplevel_adopt_monitor_index (PanelToplevel *toplevel)
++{
++	PanelMonitorEntry *entries;
++	int                n_entries;
++	int                monitor;
++
++	g_return_if_fail (PANEL_IS_TOPLEVEL (toplevel));
++
++	if (!panel_multimonitor_has_monitor_ids ())
++		return;
++
++	if (toplevel->priv->configured_monitor <= 0) {
++		panel_toplevel_set_monitor_id (toplevel, NULL);
++		return;
++	}
++
++	entries = panel_multimonitor_get_entries (&n_entries);
++	monitor = panel_monitor_lookup (entries, n_entries,
++	                                panel_multimonitor_monitors (),
++	                                panel_multimonitor_get_primary (),
++	                                NULL,
++	                                toplevel->priv->configured_monitor);
++	panel_toplevel_set_monitor_id (toplevel,
++	                               panel_monitor_id_for_index (entries, n_entries, monitor));
++	panel_monitor_entries_free (entries, n_entries);
++}
++
+ void
+ panel_toplevel_set_monitor (PanelToplevel *toplevel,
+ 			    int            monitor)
+ {
+ 	g_return_if_fail (PANEL_IS_TOPLEVEL (toplevel));
+ 
++	if (panel_multimonitor_has_monitor_ids ())
++		panel_toplevel_take_monitor_id (toplevel, monitor);
++
+ 	if (toplevel->priv->configured_monitor == monitor)
+ 		return;
+ 
+@@ -5687,6 +5784,30 @@ panel_toplevel_get_monitor (PanelTopleve
+ }
+ 
+ void
++panel_toplevel_set_monitor_id (PanelToplevel *toplevel,
++			       const char    *id)
++{
++	g_return_if_fail (PANEL_IS_TOPLEVEL (toplevel));
++
++	if (g_strcmp0 (toplevel->priv->configured_monitor_id, id) == 0)
++		return;
++
++	g_free (toplevel->priv->configured_monitor_id);
++	toplevel->priv->configured_monitor_id = g_strdup (id);
++
++	gtk_widget_queue_resize (GTK_WIDGET (toplevel));
++	g_object_notify (G_OBJECT (toplevel), "monitor-id");
++}
++
++const char *
++panel_toplevel_get_monitor_id (PanelToplevel *toplevel)
++{
++	g_return_val_if_fail (PANEL_IS_TOPLEVEL (toplevel), NULL);
++
++	return toplevel->priv->configured_monitor_id;
++}
++
++void
+ panel_toplevel_set_auto_hide (PanelToplevel *toplevel,
+ 			      gboolean       auto_hide)
+ {
+--- w.orig/mate-panel/panel-toplevel.h
++++ w/mate-panel/panel-toplevel.h
+@@ -101,6 +101,10 @@ int                  panel_toplevel_get_
+ void                 panel_toplevel_set_monitor            (PanelToplevel       *toplevel,
+                                                             int                  monitor);
+ int                  panel_toplevel_get_monitor            (PanelToplevel       *toplevel);
++void                 panel_toplevel_set_monitor_id         (PanelToplevel       *toplevel,
++                                                            const char          *id);
++const char          *panel_toplevel_get_monitor_id         (PanelToplevel       *toplevel);
++void                 panel_toplevel_adopt_monitor_index    (PanelToplevel       *toplevel);
+ void                 panel_toplevel_set_auto_hide_size     (PanelToplevel       *toplevel,
+                                                             int                  autohide_size);
+ int                  panel_toplevel_get_auto_hide_size     (PanelToplevel       *toplevel);
+--- /dev/null
++++ w/mate-panel/test-panel-monitor-lookup.c
+@@ -0,0 +1,133 @@
++/*
++ * Copyright (C) 2026 MATE Developers
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
++ * USA
++ */
++
++#include "panel-monitor-lookup.h"
++
++static const PanelMonitorEntry laptop_and_hdmi[] = {
++	{ "Chimei-14", 0 },
++	{ "Dell-U2412M", 1 },
++};
++
++static void
++test_found_by_id (void)
++{
++	g_assert_cmpint (panel_monitor_lookup (laptop_and_hdmi, 2, 2, 0, "Dell-U2412M", 0), ==, 1);
++	g_assert_cmpint (panel_monitor_lookup (laptop_and_hdmi, 2, 2, 0, "Chimei-14", 1), ==, 0);
++}
++
++static void
++test_id_wins_over_index (void)
++{
++	static const PanelMonitorEntry swapped[] = {
++		{ "Dell-U2412M", 0 },
++		{ "Chimei-14", 1 },
++	};
++
++	g_assert_cmpint (panel_monitor_lookup (swapped, 2, 2, 1, "Dell-U2412M", 1), ==, 0);
++}
++
++static void
++test_missing_id_gives_primary (void)
++{
++	static const PanelMonitorEntry laptop_only[] = {
++		{ "Chimei-14", 0 },
++	};
++	static const PanelMonitorEntry three[] = {
++		{ "A-1", 0 },
++		{ "B-2", 1 },
++		{ "C-3", 2 },
++	};
++
++	g_assert_cmpint (panel_monitor_lookup (laptop_only, 1, 1, 0, "Dell-U2412M", 1), ==, 0);
++	g_assert_cmpint (panel_monitor_lookup (three, 3, 3, 2, "Dell-U2412M", 1), ==, 2);
++	g_assert_cmpint (panel_monitor_lookup (three, 3, 3, -1, "Dell-U2412M", 1), ==, 0);
++}
++
++static void
++test_index_when_id_empty (void)
++{
++	g_assert_cmpint (panel_monitor_lookup (laptop_and_hdmi, 2, 2, 0, "", 1), ==, 1);
++	g_assert_cmpint (panel_monitor_lookup (laptop_and_hdmi, 2, 2, 0, NULL, 1), ==, 1);
++	g_assert_cmpint (panel_monitor_lookup (laptop_and_hdmi, 2, 2, 1, "", 5), ==, 1);
++}
++
++static void
++test_index_counts_from_the_primary (void)
++{
++	static const PanelMonitorEntry three[] = {
++		{ "A-1", 0 },
++		{ "B-2", 1 },
++		{ "C-3", 2 },
++	};
++
++	g_assert_cmpint (panel_monitor_lookup (laptop_and_hdmi, 2, 2, 1, "", 0), ==, 1);
++	g_assert_cmpint (panel_monitor_lookup (laptop_and_hdmi, 2, 2, 1, NULL, 1), ==, 0);
++	g_assert_cmpint (panel_monitor_lookup (three, 3, 3, 2, "", 0), ==, 2);
++	g_assert_cmpint (panel_monitor_lookup (three, 3, 3, 2, "", 1), ==, 0);
++	g_assert_cmpint (panel_monitor_lookup (three, 3, 3, 2, "", 2), ==, 1);
++	g_assert_cmpint (panel_monitor_lookup (three, 3, 3, 1, "", 2), ==, 2);
++	g_assert_cmpint (panel_monitor_lookup (three, 3, 3, -1, "", 1), ==, 1);
++}
++
++static void
++test_mirrors_share_a_monitor (void)
++{
++	static const PanelMonitorEntry mirrored[] = {
++		{ "Chimei-14", 0 },
++		{ "Dell-U2412M", 0 },
++	};
++
++	g_assert_cmpint (panel_monitor_lookup (mirrored, 2, 1, 0, "Dell-U2412M", 1), ==, 0);
++	g_assert_cmpstr (panel_monitor_id_for_index (mirrored, 2, 0), ==, "Chimei-14");
++}
++
++static void
++test_no_monitors (void)
++{
++	g_assert_cmpint (panel_monitor_lookup (NULL, 0, 0, 0, "Chimei-14", 0), ==, -1);
++}
++
++static void
++test_id_to_save (void)
++{
++	static const PanelMonitorEntry unknown[] = {
++		{ NULL, 0 },
++		{ "", 1 },
++	};
++
++	g_assert_cmpstr (panel_monitor_id_for_index (laptop_and_hdmi, 2, 1), ==, "Dell-U2412M");
++	g_assert_null (panel_monitor_id_for_index (laptop_and_hdmi, 2, 2));
++	g_assert_null (panel_monitor_id_for_index (unknown, 2, 0));
++	g_assert_null (panel_monitor_id_for_index (unknown, 2, 1));
++}
++
++int
++main (int argc, char **argv)
++{
++	g_test_init (&argc, &argv, NULL);
++	g_test_add_func ("/monitor-lookup/found-by-id", test_found_by_id);
++	g_test_add_func ("/monitor-lookup/id-wins-over-index", test_id_wins_over_index);
++	g_test_add_func ("/monitor-lookup/missing-id-gives-primary", test_missing_id_gives_primary);
++	g_test_add_func ("/monitor-lookup/index-when-id-empty", test_index_when_id_empty);
++	g_test_add_func ("/monitor-lookup/index-counts-from-the-primary", test_index_counts_from_the_primary);
++	g_test_add_func ("/monitor-lookup/mirrors-share-a-monitor", test_mirrors_share_a_monitor);
++	g_test_add_func ("/monitor-lookup/no-monitors", test_no_monitors);
++	g_test_add_func ("/monitor-lookup/id-to-save", test_id_to_save);
++	return g_test_run ();
++}
+--- w.orig/mate-panel/wayland-backend.c
++++ w/mate-panel/wayland-backend.c
+@@ -33,6 +33,7 @@
+ #include <gtk-layer-shell.h>
+ 
+ #include "wayland-backend.h"
++#include "panel-multimonitor.h"
+ 
+ static void
+ wayland_panel_toplevel_apply_anchors (PanelToplevel*   toplevel,
+@@ -159,6 +160,11 @@ wayland_panel_toplevel_update_placement
+ {
+ 	gboolean expand;
+ 	PanelOrientation orientation;
++	GdkMonitor *monitor;
++
++	monitor = panel_multimonitor_get_gdk_monitor (panel_toplevel_get_monitor (toplevel));
++	if (monitor != gtk_layer_get_monitor (GTK_WINDOW (toplevel)))
++		gtk_layer_set_monitor (GTK_WINDOW (toplevel), monitor);
+ 
+ 	orientation = panel_toplevel_get_orientation (toplevel);
+ 	expand = panel_toplevel_get_expand (toplevel);
+@@ -181,6 +187,66 @@ wayland_panel_toplevel_update_placement
+ 	wayland_panel_toplevel_apply_anchors (toplevel, orientation, expand);
+ }
+ 
++static gboolean
++wayland_panel_toplevel_hide_while_no_monitors (gpointer data)
++{
++	PanelToplevel *toplevel = data;
++
++	if (gdk_display_get_n_monitors (gdk_display_get_default ()) == 0) {
++		g_object_set_data (G_OBJECT (toplevel), "wayland-no-monitors",
++				   GINT_TO_POINTER (1));
++		gtk_widget_hide (GTK_WIDGET (toplevel));
++	}
++	g_object_unref (toplevel);
++
++	return G_SOURCE_REMOVE;
++}
++
++static void
++wayland_panel_toplevel_monitor_removed (GdkDisplay    *display,
++					GdkMonitor    *monitor,
++					PanelToplevel *toplevel)
++{
++	if (gdk_display_get_n_monitors (display) == 0) {
++		/* With no monitor left the panel waits hidden: gtk-layer-shell
++		 * would otherwise remap it from inside GDK's monitor-added, before
++		 * GDK listens to the new wl_output, and GDK would never learn
++		 * that monitor's geometry. */
++		g_idle_add (wayland_panel_toplevel_hide_while_no_monitors,
++			    g_object_ref (toplevel));
++		return;
++	}
++	/* The compositor closes a layer surface whose output goes away, and
++	 * a closed surface gets no frame callbacks, so GTK would never lay
++	 * the panel out again: remap it at once. */
++	if (gtk_layer_get_monitor (GTK_WINDOW (toplevel)) == monitor)
++		gtk_layer_set_monitor (GTK_WINDOW (toplevel), NULL);
++}
++
++static gboolean
++wayland_panel_toplevel_show_again (gpointer data)
++{
++	PanelToplevel *toplevel = data;
++
++	if (g_object_get_data (G_OBJECT (toplevel), "wayland-no-monitors") != NULL &&
++	    gdk_display_get_n_monitors (gdk_display_get_default ()) > 0) {
++		g_object_set_data (G_OBJECT (toplevel), "wayland-no-monitors", NULL);
++		gtk_widget_show (GTK_WIDGET (toplevel));
++	}
++	g_object_unref (toplevel);
++
++	return G_SOURCE_REMOVE;
++}
++
++static void
++wayland_panel_toplevel_monitor_added (GdkDisplay    *display,
++				      GdkMonitor    *monitor,
++				      PanelToplevel *toplevel)
++{
++	if (g_object_get_data (G_OBJECT (toplevel), "wayland-no-monitors") != NULL)
++		g_idle_add (wayland_panel_toplevel_show_again, g_object_ref (toplevel));
++}
++
+ void
+ wayland_panel_toplevel_init (PanelToplevel* toplevel)
+ {
+@@ -190,6 +256,10 @@ wayland_panel_toplevel_init (PanelToplev
+ 	gtk_layer_init_for_window (window);
+ 	gtk_layer_set_layer (window, GTK_LAYER_SHELL_LAYER_TOP);
+ 	gtk_layer_set_namespace (window, "panel");
++	g_signal_connect_object (gdk_display_get_default (), "monitor-removed",
++				 G_CALLBACK (wayland_panel_toplevel_monitor_removed), toplevel, 0);
++	g_signal_connect_object (gdk_display_get_default (), "monitor-added",
++				 G_CALLBACK (wayland_panel_toplevel_monitor_added), toplevel, 0);
+ 	wayland_panel_toplevel_update_placement (toplevel);
+ }
+ 
+--- w.orig/meson.build
++++ w/meson.build
+@@ -182,6 +182,9 @@ pango_dep = dependency('pango', version:
+ gtk_dep = dependency('gtk+-3.0', version: '>= 3.24.0')
+ cairo_dep = dependency('cairo', version: '>= 1.0.0')
+ mate_desktop_dep = dependency('mate-desktop-2.0', version: '>= 1.29.1')
++config_h.set('HAVE_MATE_MONITOR_INFO',
++  cc.has_header('libmate-desktop/mate-monitor-info.h', dependencies: mate_desktop_dep,
++                args: '-DMATE_DESKTOP_USE_UNSTABLE_API'))
+ mate_menu_dep = dependency('libmate-menu', version: '>= 1.21.0')
+ dconf_dep = dependency('dconf', version: '>= 0.13.4')
+ wnck_dep = dependency('libwnck-3.0', version: '>= 43.0')

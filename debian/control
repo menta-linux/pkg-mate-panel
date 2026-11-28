@@ -17,7 +17,7 @@ Build-Depends: autoconf-archive,
                gir1.2-freedesktop,
                gobject-introspection (>= 1.80),
                gtk-doc-tools,
-               libgtk-layer-shell-dev (>= 0.1.0-3~) [linux-any],
+               libgtk-layer-shell-dev (>= 0.8.0) [linux-any],
                intltool,
                libatk1.0-dev,
                libcairo2-dev,
@@ -32,13 +32,17 @@ Build-Depends: autoconf-archive,
                librda-dev (>= 0.0.3-2~),
                librsvg2-dev,
                libsm-dev,
+               libwayland-bin [linux-any],
+               libwayland-dev [linux-any],
                libwnck-3-dev (>= 3.32),
+               libxfce4windowing-0-dev (>= 4.20.2) [linux-any],
                libx11-dev,
                libxau-dev,
                libxrandr-dev,
                lsb-release,
                mate-common (>= 1.18),
                mate-submodules-source (>= 0.0~git20210623.f3091f9),
+               wayland-protocols (>= 1.14) [linux-any],
                yelp-tools,
 Standards-Version: 4.6.2
 Rules-Requires-Root: no
@@ -48,7 +52,7 @@ Vcs-Git: https://salsa.debian.org/debian-mate-team/mate-panel.git
 
 Package: mate-panel
 Architecture: any
-Depends: libmate-panel-applet-4-1 (= ${binary:Version}),
+Depends: libmate-panel-applet-4-2 (= ${binary:Version}),
          mate-desktop,
          mate-menus,
          mate-panel-common (= ${source:Version}),
@@ -80,7 +84,7 @@ Description: launcher and docking facility for MATE (common files)
  .
  This package contains the architecture independent files.
 
-Package: libmate-panel-applet-4-1
+Package: libmate-panel-applet-4-2
 Section: libs
 Multi-Arch: same
 Architecture: any
@@ -108,7 +112,7 @@ Section: libdevel
 Architecture: any
 Depends: libglib2.0-dev,
          libgtk-3-dev,
-         libmate-panel-applet-4-1 (= ${binary:Version}),
+         libmate-panel-applet-4-2 (= ${binary:Version}),
          ${gir:Depends},
          ${misc:Depends},
          ${shlibs:Depends},

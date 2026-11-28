@@ -18,8 +18,8 @@ Author: Armin Fuerst <armin@fuerst.priv.at>
 Forwarded: not-yet
 Last-Update: 2026-10-10
 ---
---- a/mate-panel/panel-background.c	2026-10-10 18:17:20.979260128 +0000
-+++ b/mate-panel/panel-background.c	2026-10-10 18:17:21.045607285 +0000
+--- a/mate-panel/panel-background.c
++++ b/mate-panel/panel-background.c
 @@ -101,10 +101,13 @@
  			* backing region is cleared
  			* (gdk_window_clear_backing_region), the correctly

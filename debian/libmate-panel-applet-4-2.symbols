@@ -1,4 +1,4 @@
-libmate-panel-applet-4.so.1 libmate-panel-applet-4-1 #MINVER#
+libmate-panel-applet-4.so.2 libmate-panel-applet-4-2 #MINVER#
 * Build-Depends-Package: libmate-panel-applet-dev
  _mate_panel_applet_apply_css@Base 1.14.0
  mate_panel_applet_background_type_get_type@Base 1.6.1

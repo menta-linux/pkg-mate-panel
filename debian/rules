@@ -13,7 +13,7 @@ override_dh_missing:
 	dh_missing --fail-missing
 
 override_dh_install:
-	rm -f debian/tmp/usr/lib/*/*.la
+	rm -f debian/tmp/usr/lib/*/*.la debian/tmp/usr/lib/*/mate-panel/*.la
 	mkdir -p debian/tmp/usr/share/doc/libmate-panel-applet-doc/
 	mv debian/tmp/usr/share/gtk-doc/html/mate-panel-applet debian/tmp/usr/share/doc/libmate-panel-applet-doc/html
 	dh_install
@@ -32,7 +32,10 @@ override_dh_auto_configure:
 		--libexecdir=/usr/libexec/mate-panel \
 		--disable-static \
 		--enable-introspection \
-		--enable-gtk-doc
+		--enable-gtk-doc \
+		--enable-x11=yes \
+		--enable-wayland=yes \
+		--with-in-process-applets=all
 
 get-orig-source:
 	uscan --noconf --force-download --rename --download-current-version --destdir=..
