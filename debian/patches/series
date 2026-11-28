@@ -4,8 +4,5 @@
 0104-configure.ac-Explicitly-require-in-RDA-0.0.3.patch
 0105-configure.ac-Make-RDA-enablement-controllable-via-co.patch
 0106-mate-panel-Makefile.am-Cleanup-WAYLAND_CFLAGS-and-WA.patch
-1001-panel-background-fix-uninitialized-surface.patch
-0201-Wayland-Keep-panels-on-the-right-monitor.patch
-0202-Wayland-Allocate-the-panel-window-at-its-origin.patch
 0203-Wayland-Activate-a-window-when-a-drag-hovers-its-task-button.patch
 0204-Add-org.mate.Panel.Shell-D-Bus-interface.patch
